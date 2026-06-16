@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Workspace temp
+workspace/
+
+# Credentials
+.config/
