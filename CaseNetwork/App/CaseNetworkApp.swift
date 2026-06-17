@@ -22,7 +22,7 @@ struct CaseNetworkApp: App {
                         Label("Contacts", systemImage: "person.3.fill")
                     }
 
-                Text("Case list - coming soon")
+                CaseListView()
                     .tabItem {
                         Label("Cases", systemImage: "doc.text.fill")
                     }
