@@ -6,3 +6,5 @@ workspace/
 
 # Credentials
 .config/
+.claude/plans/myagents/
+.build/
