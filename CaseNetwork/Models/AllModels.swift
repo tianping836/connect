@@ -10,6 +10,15 @@ enum ContactRole: String, Codable, CaseIterable, Identifiable {
     case witness = "证人", appraiser = "鉴定人"
     case inspectionUnit = "检查股", caseReviewUnit = "案审股", other = "其他"
     var id: String { rawValue }
+    var colorHex: String {
+        switch self {
+        case .judge: "#D32F2F"; case .prosecutor: "#1976D2"; case .prosecutorAssistant: "#64B5F6"
+        case .judgeAssistant: "#EF9A9A"; case .clerk: "#5D4037"; case .juror: "#7B1FA2"
+        case .lawyer: "#388E3C"; case .party: "#F57C00"; case .police: "#512DA8"
+        case .witness: "#00796B"; case .appraiser: "#C2185B"
+        case .inspectionUnit: "#455A64"; case .caseReviewUnit: "#455A64"; case .other: "#616161"
+        }
+    }
 }
 
 enum OrganizationType: String, Codable, CaseIterable, Identifiable {

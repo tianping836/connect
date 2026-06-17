@@ -18,6 +18,7 @@ let package = Package(
         .target(
             name: "CaseNetwork",
             path: "CaseNetwork",
+            exclude: ["App/CaseNetworkApp.swift"],  // iOS @main only works in Xcode project
             resources: nil
         ),
         .testTarget(
