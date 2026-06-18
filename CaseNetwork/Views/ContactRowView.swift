@@ -10,6 +10,7 @@ struct ContactRowView: View {
         HStack(spacing: 12) {
             // 头像
             AvatarView(name: contact.name, importance: contact.importance)
+                .accessibilityHidden(true)
 
             // 信息区
             VStack(alignment: .leading, spacing: 4) {
@@ -75,6 +76,8 @@ struct ContactRowView: View {
         }
         .padding(.vertical, 4)
         .draggable(contact.id.uuidString)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityText)
         .contextMenu {
             Button {
                 NotificationCenter.default.post(name: .editContactRequested, object: contact)
@@ -106,6 +109,16 @@ struct ContactRowView: View {
         contact.referrals?.forEach { $0.referrer = nil }
         modelContext.delete(contact)
         try? modelContext.save()
+    }
+
+    var accessibilityText: String {
+        var parts: [String] = [contact.name]
+        if contact.importance >= 4 { parts.append("\(contact.importance) stars") }
+        if !contact.roleTags.isEmpty { parts.append(contact.roleTags.map(\.rawValue).joined(separator: ", ")) }
+        if let org = contact.organization?.name { parts.append(org) }
+        let caseCount = contact.caseParticipations?.count ?? 0
+        if caseCount > 0 { parts.append("\(caseCount) cases") }
+        return parts.joined(separator: ", ")
     }
 }
 
@@ -201,19 +214,6 @@ struct RelationshipStageIndicator: View {
 }
 
 // MARK: - 工具扩展
-
-extension Color {
-    init(hex: String) {
-        let scanner = Scanner(string: hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted))
-        var rgb: UInt64 = 0
-        scanner.scanHexInt64(&rgb)
-        self.init(
-            red: Double((rgb >> 16) & 0xFF) / 255,
-            green: Double((rgb >> 8) & 0xFF) / 255,
-            blue: Double(rgb & 0xFF) / 255
-        )
-    }
-}
 
 extension Date {
     var relativeFormatted: String {

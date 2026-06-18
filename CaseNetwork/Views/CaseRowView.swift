@@ -74,6 +74,8 @@ struct CaseRowView: View {
             CaseStageBadge(stage: caseRecord.caseStage)
         }
         .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(caseRecord.caseName), \(caseRecord.caseStage.rawValue), \(caseRecord.participants?.count ?? 0) participants")
         .contextMenu {
             Button {
                 NotificationCenter.default.post(name: .editCaseRequested, object: caseRecord)

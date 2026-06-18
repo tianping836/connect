@@ -3,11 +3,13 @@ import SwiftData
 
 // listStyle 统一使用 .inset，跨平台兼容 iOS 和 macOS
 
-/// 人脉详情页——基本信息 + 关联联系人（介绍人链）+ 关联案件（区分当事人/经办人）
+/// 人脉详情页——基本信息 + 关联联系人（介绍人链）+ 关联案件（区分当事人/经办人）+ 互动时间线
 struct ContactDetailView: View {
     let contact: Contact
     @Environment(\.modelContext) private var modelContext
     @State private var showEdit = false
+    @State private var showAddInteraction = false
+    @State private var showAllInteractions = false
 
     var body: some View {
         List {
@@ -143,33 +145,61 @@ struct ContactDetailView: View {
             // MARK: - 互动记录
 
             if let interactions = contact.interactions, !interactions.isEmpty {
-                Section("Recent interactions") {
-                    ForEach(interactions.sorted(by: { $0.date > $1.date }).prefix(5)) { interaction in
-                        VStack(alignment: .leading, spacing: 4) {
+                let sorted = interactions.sorted(by: { $0.date > $1.date })
+                let showAll = showAllInteractions
+                let displayed = showAll ? sorted : Array(sorted.prefix(5))
+                let hasMore = !showAll && sorted.count > 5
+
+                Section {
+                    ForEach(displayed) { interaction in
+                        interactionRow(interaction)
+                    }
+
+                    if hasMore {
+                        Button {
+                            withAnimation { showAllInteractions = true }
+                        } label: {
                             HStack {
-                                Text(interaction.type.rawValue)
-                                    .font(.caption.weight(.medium))
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 2)
-                                    .background(.blue.opacity(0.1))
-                                    .foregroundStyle(.blue)
-                                    .clipShape(.capsule)
-
                                 Spacer()
-
-                                Text(interaction.date.formatted(date: .abbreviated, time: .omitted))
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                Text("See all \(sorted.count) interactions")
+                                    .font(.subheadline)
+                                Image(systemName: "chevron.down")
+                                Spacer()
                             }
-                            Text(interaction.detail)
-                                .font(.subheadline)
-                            if let amount = interaction.amount {
-                                Text("\(amount, format: .currency(code: "CNY"))")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
+                            .foregroundStyle(.blue)
                         }
                     }
+                } header: {
+                    HStack {
+                        Text("Interaction timeline (\(sorted.count))")
+                        Spacer()
+                        Button {
+                            showAddInteraction = true
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .foregroundStyle(.blue)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            } else {
+                Section("Interaction timeline") {
+                    VStack(spacing: 12) {
+                        Image(systemName: "clock.arrow.2.circlepath")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                        Text("No interactions recorded")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Button {
+                            showAddInteraction = true
+                        } label: {
+                            Label("Record your first interaction", systemImage: "plus")
+                                .font(.subheadline)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
                 }
             }
         }
@@ -183,6 +213,77 @@ struct ContactDetailView: View {
         .sheet(isPresented: $showEdit) {
             ContactEditView(contact: contact)
         }
+        .sheet(isPresented: $showAddInteraction) {
+            InteractionEditView(contact: contact)
+        }
+    }
+
+    // MARK: - 互动行
+
+    private func interactionRow(_ interaction: Interaction) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Text(interaction.type.icon)
+                Text(interaction.type.rawValue)
+                    .font(.caption.weight(.medium))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(interactionColor(interaction.type).opacity(0.12))
+                    .foregroundStyle(interactionColor(interaction.type))
+                    .clipShape(.capsule)
+
+                Spacer()
+
+                Text(interaction.date.formatted(date: .abbreviated, time: .omitted))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
+            Text(interaction.detail)
+                .font(.subheadline)
+
+            HStack(spacing: 12) {
+                if let amount = interaction.amount {
+                    Label(
+                        amount.formatted(.currency(code: "CNY")),
+                        systemImage: "yensign.circle"
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+                if let followUp = interaction.nextFollowUpDate {
+                    Label(
+                        "Follow-up: \(followUp.formatted(date: .abbreviated, time: .omitted))",
+                        systemImage: followUp < Date() ? "bell.badge" : "bell"
+                    )
+                    .font(.caption)
+                    .foregroundStyle(followUp < Date() ? .orange : .secondary)
+                }
+            }
+        }
+        .contextMenu {
+            Button(role: .destructive) {
+                modelContext.delete(interaction)
+                try? modelContext.save()
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+    }
+
+    private func interactionColor(_ type: InteractionType) -> Color {
+        switch type {
+        case .giftGiven:     .orange
+        case .giftReceived:  .blue
+        case .favorGiven:    .green
+        case .favorReceived: .teal
+        case .visit:         .purple
+        case .phoneCall:     .indigo
+        case .wechat:        .mint
+        case .meeting:       .cyan
+        case .meal:          .pink
+        case .other:         .secondary
+        }
     }
 
     @ViewBuilder
@@ -190,8 +291,7 @@ struct ContactDetailView: View {
         ForEach(participations) { participation in
             if let caseRecord = participation.caseRecord {
                 NavigationLink {
-                    // CaseDetailView 稍后实现
-                    Text(caseRecord.caseName)
+                    CaseDetailView(caseRecord: caseRecord)
                 } label: {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {

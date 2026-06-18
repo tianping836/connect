@@ -40,18 +40,11 @@ struct GlobalSearchView: View {
         let query = searchText.lowercased()
 
         let matchedContacts = allContacts.filter {
-            $0.name.lowercased().contains(query)
-            || ($0.phone ?? "").contains(query)
-            || ($0.organization?.name ?? "").lowercased().contains(query)
-            || $0.skillTags.contains { $0.lowercased().contains(query) }
+            $0.matchesSearchQuery(query)
         }
 
         let matchedCases = allCases.filter {
-            $0.caseName.lowercased().contains(query)
-            || ($0.courtCaseNumber ?? "").lowercased().contains(query)
-            || ($0.internalCaseNumber ?? "").lowercased().contains(query)
-            || ($0.acceptedOrganization?.name ?? "").lowercased().contains(query)
-            || ($0.caseResult ?? "").lowercased().contains(query)
+            $0.matchesSearchQuery(query)
         }
 
         let isEmpty = matchedContacts.isEmpty && matchedCases.isEmpty

@@ -23,13 +23,7 @@ struct AddParticipantSheet: View {
     private var filteredContacts: [Contact] {
         let available = allContacts.filter { !existingContactIDs.contains($0.id) }
         guard !searchText.isEmpty else { return available }
-        let query = searchText.lowercased()
-        return available.filter {
-            $0.name.lowercased().contains(query)
-            || ($0.phone ?? "").contains(query)
-            || ($0.organization?.name ?? "").lowercased().contains(query)
-            || $0.skillTags.contains(where: { $0.lowercased().contains(query) })
-        }
+        return available.filter { $0.matchesSearchQuery(searchText) }
     }
 
     var body: some View {

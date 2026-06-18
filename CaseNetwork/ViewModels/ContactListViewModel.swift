@@ -67,14 +67,10 @@ final class ContactListViewModel {
             result = result.filter { !$0.isArchived }
         }
 
-        // 文本搜索
+        // 文本搜索（支持拼音）
         if !searchText.isEmpty {
-            let query = searchText.lowercased()
             result = result.filter { contact in
-                contact.name.lowercased().contains(query)
-                || (contact.phone ?? "").contains(query)
-                || (contact.organization?.name ?? "").lowercased().contains(query)
-                || contact.skillTags.contains(where: { $0.lowercased().contains(query) })
+                contact.matchesSearchQuery(searchText)
             }
         }
 
