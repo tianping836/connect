@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Contacts
 
 // MARK: - 平台适配
 
@@ -17,6 +18,8 @@ struct ContactListView: View {
     @State private var viewModel = ContactListViewModel()
     @State private var showAddContact = false
     @State private var showImportContacts = false
+    @State private var isImportingAll = false
+    @State private var importResult: String?
     @FocusState private var searchFocused: Bool
 
     var body: some View {
@@ -44,7 +47,10 @@ struct ContactListView: View {
                     showAddContact = true
                 }
             }
-            .onAppear { viewModel.loadContacts(contacts) }
+            .onAppear {
+                viewModel.loadContacts(contacts)
+                syncNewContacts()
+            }
             .onChange(of: contacts) { _, newValue in viewModel.loadContacts(newValue) }
             .onChange(of: viewModel.searchText) { _, _ in viewModel.loadContacts(contacts) }
         }
@@ -197,16 +203,31 @@ struct ContactListView: View {
             .keyboardShortcut("n", modifiers: .command)
         }
         ToolbarItem(placement: .secondaryAction) {
-            Menu {
-                Toggle("显示已归档", isOn: $viewModel.showArchived)
-                Divider()
+            HStack(spacing: 12) {
+                // 一键导入全部通讯录
                 Button {
-                    showImportContacts = true
+                    importAllContacts()
                 } label: {
-                    Label("从通讯录导入", systemImage: "person.crop.circle.badge.plus")
+                    if isImportingAll {
+                        ProgressView().scaleEffect(0.7)
+                    } else {
+                        Image(systemName: "arrow.down.doc")
+                    }
                 }
-            } label: {
-                Image(systemName: "ellipsis.circle")
+                .disabled(isImportingAll)
+                .keyboardShortcut("i", modifiers: .command)
+
+                Menu {
+                    Toggle("显示已归档", isOn: $viewModel.showArchived)
+                    Divider()
+                    Button {
+                        showImportContacts = true
+                    } label: {
+                        Label("选择导入...", systemImage: "person.crop.circle.badge.plus")
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                }
             }
         }
     }
@@ -224,6 +245,61 @@ struct ContactListView: View {
         withAnimation {
             contact.importance = contact.importance >= 5 ? 3 : 5
             try? modelContext.save()
+        }
+    }
+
+    // MARK: - 自动同步新增联系人
+
+    /// 检查通讯录中是否有新联系人，静默导入
+    private func syncNewContacts() {
+        let lastImport = UserDefaults.standard.double(forKey: "last_contact_import")
+        // 从未导入过，跳过自动同步（用户可能想手动控制首次导入）
+        guard lastImport > 0 else { return }
+
+        Task {
+            let status = ContactImporter.shared.authorizationStatus
+            guard status == .authorized else { return }
+            do {
+                let all = try await ContactImporter.shared.fetchAllContacts()
+                guard !all.isEmpty else { return }
+                let count = try ContactImporter.shared.importSelected(all, modelContext: modelContext)
+                if count > 0 {
+                    UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "last_contact_import")
+                    await MainActor.run { viewModel.loadContacts(contacts) }
+                }
+            } catch { /* 静默失败，不影响使用 */ }
+        }
+    }
+
+    // MARK: - 一键导入通讯录
+
+    private func importAllContacts() {
+        isImportingAll = true
+        importResult = nil
+        Task {
+            let granted = await ContactImporter.shared.requestAccess()
+            guard granted else {
+                await MainActor.run {
+                    importResult = "通讯录权限未授权，请在系统设置中开启"
+                    isImportingAll = false
+                }
+                return
+            }
+            do {
+                let count = try await ContactImporter.shared.importAll(modelContext: modelContext)
+                UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "last_contact_import")
+                await MainActor.run {
+                    importResult = "已导入 \(count) 位联系人"
+                    isImportingAll = false
+                    // 刷新列表
+                    viewModel.loadContacts(contacts)
+                }
+            } catch {
+                await MainActor.run {
+                    importResult = "导入失败: \(error.localizedDescription)"
+                    isImportingAll = false
+                }
+            }
         }
     }
 }

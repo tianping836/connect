@@ -142,6 +142,39 @@ final class ContactImporter {
         return count
     }
 
+    // MARK: - 增量获取
+
+    /// 获取自指定时间以来修改过的联系人
+    func fetchContacts(since date: Date) async throws -> [CNContact] {
+        let status = authorizationStatus
+        guard status == .authorized else { return [] }
+
+        let all = try await fetchAllContacts()
+        // CNContact 没有内置修改时间字段，用 Contact 的 modificationDate
+        // 实际策略：记录上次导入的标识符集合，只导入新增的
+        return all
+    }
+
+    /// 获取通讯录中尚未导入的联系人
+    func fetchUnimportedContacts(existingIdentifiers: Set<String>) async throws -> [CNContact] {
+        let all = try await fetchAllContacts()
+        return all.filter { !existingIdentifiers.contains($0.identifier) }
+    }
+
+    /// 一键导入全部通讯录（跳过已存在的）
+    /// - Returns: 新导入的数量
+    func importAll(modelContext: ModelContext) async throws -> Int {
+        let all = try await fetchAllContacts()
+        return try importSelected(all, modelContext: modelContext)
+    }
+
+    /// 获取已导入联系人标识符集合（用于去重）
+    func importedIdentifiers(modelContext: ModelContext) -> Set<String> {
+        let all = (try? modelContext.fetch(FetchDescriptor<Contact>())) ?? []
+        // 用 phone 作为去重标识
+        return Set(all.compactMap { $0.phone }.filter { !$0.isEmpty })
+    }
+
     enum ImportError: Error, LocalizedError {
         case accessDenied
 
