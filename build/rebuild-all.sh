@@ -84,7 +84,7 @@ echo -e "${YELLOW}📲 安装到设备...${NC}"
 # Get connected iOS device UDIDs
 DEVICE_IDS=$(xcrun xctrace list devices 2>/dev/null | grep -E 'iPhone|iPad' | grep -v 'Simulator' | grep -oE '\([0-9A-F]{24,40}\)' | tr -d '()' || true)
 
-if [ -z "$DEVICES" ]; then
+if [ -z "$DEVICE_IDS" ]; then
     echo "  ⚠️ 未检测到已连接的 iOS 设备"
 else
     echo "$DEVICE_IDS" | while read -r UDID; do
