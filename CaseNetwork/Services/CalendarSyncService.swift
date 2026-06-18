@@ -8,8 +8,33 @@ final class CalendarSyncService {
     static let shared = CalendarSyncService()
 
     private let eventStore = EKEventStore()
+    private var isWatching = false
 
     private init() {}
+
+    // MARK: - 实时监听
+
+    /// 开始监听系统日历变更（新增/修改/删除事件时自动同步）
+    func startWatching() {
+        guard !isWatching else { return }
+        isWatching = true
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(calendarChanged),
+            name: .EKEventStoreChanged,
+            object: eventStore
+        )
+    }
+
+    /// 日历变更回调（限流：5 秒内多次变更只触发一次）
+    private var pendingSync: Task<Void, Never>?
+    @objc private func calendarChanged(_ notification: Notification) {
+        pendingSync?.cancel()
+        pendingSync = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(5))
+            NotificationCenter.default.post(name: .calendarSyncRequested, object: nil)
+        }
+    }
 
     // MARK: - 权限
 

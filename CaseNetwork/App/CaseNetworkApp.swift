@@ -34,6 +34,8 @@ struct CaseNetworkApp: App {
         }
         // 启动 CloudKit 同步观察
         CloudSyncObserver.shared.startIfNeeded()
+        // 启动系统日历实时监听
+        CalendarSyncService.shared.startWatching()
     }
 
     var body: some Scene {

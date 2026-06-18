@@ -78,6 +78,10 @@ struct CalendarView: View {
                     showAddEvent = true
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: .calendarSyncRequested)) { _ in
+                // 系统日历有变更，自动静默同步
+                syncAppleCalendar()
+            }
             .onAppear {
                 viewModel.loadEvents(allKeyEvents)
                 autoSyncCalendar()

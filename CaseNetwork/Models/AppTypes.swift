@@ -46,4 +46,6 @@ extension Notification.Name {
     static let editCaseRequested = Notification.Name("CaseNetwork.editCaseRequested")
     /// 右键菜单 → 编辑大事记
     static let editKeyEventRequested = Notification.Name("CaseNetwork.editKeyEventRequested")
+    /// 系统日历变更 → 请求同步
+    static let calendarSyncRequested = Notification.Name("CaseNetwork.calendarSyncRequested")
 }
