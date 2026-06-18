@@ -60,16 +60,16 @@ struct OnboardingView: View {
             }
 
             VStack(spacing: 8) {
-                Text("Welcome to CaseNetwork")
+                Text("欢迎使用 CaseNetwork")
                     .font(.largeTitle.weight(.bold))
-                Text("Your case-contact intelligence")
+                Text("案件与人脉，一网打尽")
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
 
             #if os(iOS)
             Spacer()
-            Text("Swipe to continue →")
+            Text("滑动继续 →")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
                 .padding(.bottom, 20)
@@ -81,25 +81,25 @@ struct OnboardingView: View {
 
     private var featuresSection: some View {
         VStack(spacing: 32) {
-            Text("Three dimensions,\none network")
+            Text("三大维度，一张网络")
                 .font(.title.weight(.bold))
                 .multilineTextAlignment(.center)
 
             VStack(alignment: .leading, spacing: 24) {
                 featureRow(
                     icon: "magnifyingglass", color: .blue,
-                    title: "Search a case → see everyone involved",
-                    subtitle: "Judges, prosecutors, opposing counsel, clients — all participants and their roles."
+                    title: "搜一个案件 → 看全部参与人",
+                    subtitle: "法官、检察官、对方律师、当事人——全部参与人及其角色一目了然。"
                 )
                 featureRow(
                     icon: "person.2.fill", color: .green,
-                    title: "Search a person → see every related case",
-                    subtitle: "All cases, organizations, referral chains. Client vs official, clearly separated."
+                    title: "搜一个人 → 看全部关联案件",
+                    subtitle: "所有案件、机构、介绍人链条。当事人与经办人员清晰区分。"
                 )
                 featureRow(
                     icon: "calendar", color: .orange,
-                    title: "Court calendar with reminders",
-                    subtitle: "Month view. 11 event types color-coded. Push notifications before hearings."
+                    title: "法庭日历与提醒",
+                    subtitle: "月视图 + 11 种事件颜色区分。开庭前自动推送通知。"
                 )
             }
             .padding(.horizontal, 24)
@@ -110,10 +110,10 @@ struct OnboardingView: View {
 
     private var quickStartSection: some View {
         VStack(spacing: 24) {
-            Text("Ready to start?")
+            Text("准备好了吗？")
                 .font(.title.weight(.bold))
 
-            Text("Add your first contact or case.\nYou can always import more later.")
+            Text("添加你的第一个人脉或案件。\n之后随时可以导入更多。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -122,7 +122,7 @@ struct OnboardingView: View {
                 Button {
                     showAddContact = true
                 } label: {
-                    Label("Add your first contact", systemImage: "person.badge.plus")
+                    Label("添加第一个人脉", systemImage: "person.badge.plus")
                         .frame(maxWidth: 280)
                         .padding(.vertical, 14)
                 }
@@ -132,7 +132,7 @@ struct OnboardingView: View {
                 Button {
                     showAddCase = true
                 } label: {
-                    Label("Add your first case", systemImage: "doc.badge.plus")
+                    Label("添加第一个案件", systemImage: "doc.badge.plus")
                         .frame(maxWidth: 280)
                         .padding(.vertical, 14)
                 }
@@ -143,7 +143,7 @@ struct OnboardingView: View {
             Button {
                 dismiss()
             } label: {
-                Text("Skip for now →")
+                Text("先跳过 →")
                     .font(.body.weight(.medium))
             }
             .buttonStyle(.plain)

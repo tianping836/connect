@@ -30,25 +30,25 @@ struct ContactEditView: View {
     @State private var contactReminderDays: Int?
 
     private var isEditing: Bool { contact != nil }
-    private var title: String { isEditing ? "Edit" : "New Contact" }
+    private var title: String { isEditing ? "编辑" : "新建人脉" }
 
     var body: some View {
         NavigationStack {
             Form {
                 // 基础信息
-                Section("Basic") {
-                    TextField("Name *", text: $name)
-                    TextField("Phone", text: $phone)
-                    TextField("WeChat", text: $wechat)
-                    TextField("Email", text: $email)
+                Section("基本信息") {
+                    TextField("姓名 *", text: $name)
+                    TextField("电话", text: $phone)
+                    TextField("微信", text: $wechat)
+                    TextField("邮箱", text: $email)
                 }
 
                 // 角色 + 机构
-                Section("Role & Organization") {
+                Section("角色与机构") {
                     roleSelector
 
-                    Picker("Organization", selection: $selectedOrg) {
-                        Text("None").tag(nil as Organization?)
+                    Picker("机构", selection: $selectedOrg) {
+                        Text("无").tag(nil as Organization?)
                         ForEach(organizations) { org in
                             Text(org.name).tag(org as Organization?)
                         }
@@ -60,9 +60,9 @@ struct ContactEditView: View {
                 }
 
                 // 人脉链
-                Section("Network") {
-                    Picker("Referrer", selection: $selectedReferrer) {
-                        Text("None").tag(nil as Contact?)
+                Section("人脉链") {
+                    Picker("介绍人", selection: $selectedReferrer) {
+                        Text("无").tag(nil as Contact?)
                         ForEach(allContacts.filter { $0.id != contact?.id }) { person in
                             Text(person.name).tag(person as Contact?)
                         }
@@ -70,27 +70,27 @@ struct ContactEditView: View {
                 }
 
                 // 关系深度
-                Section("Relationship") {
-                    Picker("Stage", selection: $relationshipStage) {
+                Section("关系") {
+                    Picker("阶段", selection: $relationshipStage) {
                         ForEach(RelationshipStage.allCases) { stage in
                             Text(stage.rawValue).tag(stage)
                         }
                     }
 
-                    Stepper("Importance: \(String(repeating: "⭐", count: importance))", value: $importance, in: 1...5)
+                    Stepper("重要度: \(String(repeating: "⭐", count: importance))", value: $importance, in: 1...5)
                 }
 
                 // 技能标签
-                Section("Skills") {
-                    TextField("Comma separated, like: tax, litigation", text: $skillTagsText)
+                Section("技能") {
+                    TextField("逗号分隔，如: 税务, 诉讼", text: $skillTagsText)
                 }
 
                 // 软信息
-                Section("Soft info") {
-                    TextField("Preferences / Interests", text: $preferences)
-                    Toggle("Has birthday", isOn: $hasBirthday)
+                Section("软信息") {
+                    TextField("偏好 / 兴趣", text: $preferences)
+                    Toggle("有生日", isOn: $hasBirthday)
                     if hasBirthday {
-                        DatePicker("Birthday", selection: Binding(
+                        DatePicker("生日", selection: Binding(
                             get: { birthday ?? Date() },
                             set: { birthday = $0 }
                         ), displayedComponents: .date)
@@ -98,18 +98,18 @@ struct ContactEditView: View {
                 }
 
                 // 提醒
-                Section("Reminder") {
-                    Picker("Remind to contact every", selection: $contactReminderDays) {
-                        Text("None").tag(nil as Int?)
-                        Text("7 days").tag(7 as Int?)
-                        Text("14 days").tag(14 as Int?)
-                        Text("30 days").tag(30 as Int?)
-                        Text("90 days").tag(90 as Int?)
+                Section("提醒") {
+                    Picker("联系提醒周期", selection: $contactReminderDays) {
+                        Text("无").tag(nil as Int?)
+                        Text("7 天").tag(7 as Int?)
+                        Text("14 天").tag(14 as Int?)
+                        Text("30 天").tag(30 as Int?)
+                        Text("90 天").tag(90 as Int?)
                     }
                 }
 
                 // 备注
-                Section("Notes") {
+                Section("备注") {
                     TextEditor(text: $notes)
                         .frame(minHeight: 80)
                 }
@@ -117,10 +117,10 @@ struct ContactEditView: View {
             .navigationTitle(title)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { saveContact() }
+                    Button("保存") { saveContact() }
                         .disabled(name.isEmpty)
                 }
             }

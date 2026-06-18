@@ -30,8 +30,8 @@ struct KeyEventEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Event") {
-                    Picker("Type", selection: $eventType) {
+                Section("事件") {
+                    Picker("类型", selection: $eventType) {
                         ForEach(KeyEventType.allCases) { t in
                             HStack {
                                 Circle()
@@ -42,25 +42,25 @@ struct KeyEventEditView: View {
                         }
                     }
 
-                    TextField("Title *", text: $title)
+                    TextField("标题 *", text: $title)
                 }
 
-                Section("Case & Date") {
-                    Picker("Related case", selection: $selectedCase) {
-                        Text("None").tag(nil as CaseRecord?)
+                Section("案件 & 日期") {
+                    Picker("关联案件", selection: $selectedCase) {
+                        Text("无").tag(nil as CaseRecord?)
                         ForEach(allCases) { c in Text(c.caseName).tag(c as CaseRecord?) }
                     }
 
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
+                    DatePicker("日期", selection: $date, displayedComponents: .date)
                 }
 
-                Section("Detail") {
-                    TextField("Detail", text: $detail, axis: .vertical)
+                Section("详情") {
+                    TextField("详情", text: $detail, axis: .vertical)
                         .lineLimit(3)
                 }
 
-                Section("Reminder") {
-                    Toggle("Enable reminder", isOn: $reminderEnabled)
+                Section("提醒") {
+                    Toggle("启用提醒", isOn: $reminderEnabled)
 
                     if reminderEnabled {
                         reminderDaysPicker
@@ -68,10 +68,10 @@ struct KeyEventEditView: View {
                     }
                 }
             }
-            .navigationTitle(isEditing ? "Edit" : "New Event")
+            .navigationTitle(isEditing ? "编辑" : "新建事件")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .destructiveAction) {
                     if isEditing {
@@ -81,14 +81,14 @@ struct KeyEventEditView: View {
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { saveEvent() }.disabled(title.isEmpty)
+                    Button("保存") { saveEvent() }.disabled(title.isEmpty)
                 }
             }
-            .alert("Delete this event?", isPresented: $showDeleteConfirm) {
-                Button("Delete", role: .destructive) { deleteEvent() }
-                Button("Cancel", role: .cancel) {}
+            .alert("删除此事件？", isPresented: $showDeleteConfirm) {
+                Button("删除", role: .destructive) { deleteEvent() }
+                Button("取消", role: .cancel) {}
             } message: {
-                Text("The event \"\(event?.title ?? "")\" and its reminders will be deleted.")
+                Text("事件「\(event?.title ?? "")」及其提醒将被删除。")
             }
             .onAppear { loadExisting() }
         }
@@ -107,7 +107,7 @@ struct KeyEventEditView: View {
                         reminderDays.sort(by: >)
                     }
                 } label: {
-                    Text("\(day)d")
+                    Text("\(day)天")
                         .font(.caption.weight(.medium))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)

@@ -28,7 +28,7 @@ struct ContactListView: View {
                     listContent
                 }
             }
-            .navigationTitle("Contacts")
+            .navigationTitle("人脉")
             .searchable(text: $viewModel.searchText, placement: searchFieldPlacement, prompt: "搜索姓名、单位、技能...")
             .toolbar {
                 toolbarContent
@@ -61,7 +61,7 @@ struct ContactListView: View {
 
             // 高优先级区（展开）
             if !viewModel.importantContacts.isEmpty && !viewModel.isFiltering {
-                Section("Important") {
+                Section("⭐ 重要") {
                     ForEach(viewModel.importantContacts) { contact in
                         NavigationLink {
                             ContactDetailView(contact: contact)
@@ -69,7 +69,7 @@ struct ContactListView: View {
                             ContactRowView(contact: contact)
                         }
                         .swipeActions(edge: .trailing) {
-                            Button("Archive", systemImage: "archivebox") {
+                            Button("归档", systemImage: "archivebox") {
                                 archiveContact(contact)
                             }
                             .tint(.gray)
@@ -80,7 +80,7 @@ struct ContactListView: View {
 
             // 按关系阶段分组
             if viewModel.isFiltering {
-                Section("\(viewModel.totalCount) Result(s)") {
+                Section("\(viewModel.totalCount) 个结果") {
                     ForEach(viewModel.contactsByStage.flatMap(\.1)) { contact in
                         contactRow(contact)
                     }
@@ -105,13 +105,13 @@ struct ContactListView: View {
             ContactRowView(contact: contact)
         }
         .swipeActions(edge: .trailing) {
-            Button("Archive", systemImage: "archivebox") {
+            Button("归档", systemImage: "archivebox") {
                 archiveContact(contact)
             }
             .tint(.gray)
         }
         .swipeActions(edge: .leading) {
-            Button(contact.importance >= 5 ? "Unstar" : "Star", systemImage: contact.importance >= 5 ? "star.slash" : "star") {
+            Button(contact.importance >= 5 ? "取消星标" : "星标", systemImage: contact.importance >= 5 ? "star.slash" : "star") {
                 toggleImportance(contact)
             }
             .tint(.orange)
@@ -123,7 +123,7 @@ struct ContactListView: View {
     private var roleFilterBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                FilterChip(label: "All", isSelected: viewModel.selectedRoleFilter == nil) {
+                FilterChip(label: "全部", isSelected: viewModel.selectedRoleFilter == nil) {
                     viewModel.selectedRoleFilter = nil
                 }
 
@@ -141,7 +141,7 @@ struct ContactListView: View {
                 Divider().frame(height: 20)
 
                 Menu {
-                    Picker("Sort", selection: $viewModel.sortOrder) {
+                    Picker("排序", selection: $viewModel.sortOrder) {
                         ForEach(ContactListViewModel.SortOrder.allCases) { order in
                             Text(order.rawValue).tag(order)
                         }
@@ -167,10 +167,10 @@ struct ContactListView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
 
-            Text("No contacts yet")
+            Text("还没有人脉")
                 .font(.title3.weight(.medium))
 
-            Text("Add your first contact\nclients, judges, colleagues, friends...")
+            Text("添加你的第一个人脉\n客户、法官、同事、朋友……")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -178,7 +178,7 @@ struct ContactListView: View {
             Button {
                 showAddContact = true
             } label: {
-                Label("Add your first contact", systemImage: "plus")
+                Label("添加第一个人脉", systemImage: "plus")
             }
             .buttonStyle(.borderedProminent)
         }
@@ -198,12 +198,12 @@ struct ContactListView: View {
         }
         ToolbarItem(placement: .secondaryAction) {
             Menu {
-                Toggle("Show archived", isOn: $viewModel.showArchived)
+                Toggle("显示已归档", isOn: $viewModel.showArchived)
                 Divider()
                 Button {
                     showImportContacts = true
                 } label: {
-                    Label("Import from Contacts", systemImage: "person.crop.circle.badge.plus")
+                    Label("从通讯录导入", systemImage: "person.crop.circle.badge.plus")
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")

@@ -20,8 +20,8 @@ struct GlobalSearchView: View {
                     searchResults
                 }
             }
-            .navigationTitle("Search")
-            .searchable(text: $searchText, placement: .automatic, prompt: "Search names, cases, courts, tags...")
+            .navigationTitle("搜索")
+            .searchable(text: $searchText, placement: .automatic, prompt: "搜索姓名、案件、法院、标签……")
             .focused($isFocused)
             .onSubmit(of: .search) {
                 // 提交搜索时记录历史
@@ -66,7 +66,7 @@ struct GlobalSearchView: View {
             }
 
             if !matchedContacts.isEmpty {
-                Section("Contacts (\(matchedContacts.count))") {
+                Section("人脉 (\(matchedContacts.count))") {
                     ForEach(matchedContacts) { contact in
                         NavigationLink {
                             ContactDetailView(contact: contact)
@@ -78,7 +78,7 @@ struct GlobalSearchView: View {
             }
 
             if !matchedCases.isEmpty {
-                Section("Cases (\(matchedCases.count))") {
+                Section("案件 (\(matchedCases.count))") {
                     ForEach(matchedCases) { caseRecord in
                         NavigationLink {
                             CaseDetailView(caseRecord: caseRecord)
@@ -126,9 +126,9 @@ struct GlobalSearchView: View {
                     }
                 } header: {
                     HStack {
-                        Text("Recent searches")
+                        Text("最近搜索")
                         Spacer()
-                        Button("Clear") {
+                        Button("清除") {
                             withAnimation {
                                 SearchHistory.shared.clear()
                                 history = []
@@ -144,7 +144,7 @@ struct GlobalSearchView: View {
                 .filter { $0.importance >= 4 && !$0.isArchived }
                 .prefix(5)
             if !important.isEmpty {
-                Section("Key Contacts") {
+                Section("重要人脉") {
                     ForEach(Array(important)) { contact in
                         NavigationLink {
                             ContactDetailView(contact: contact)
@@ -161,7 +161,7 @@ struct GlobalSearchView: View {
                 .sorted { ($0.filingDate ?? .distantPast) > ($1.filingDate ?? .distantPast) }
                 .prefix(5)
             if !activeCases.isEmpty {
-                Section("Active Cases") {
+                Section("进行中的案件") {
                     ForEach(Array(activeCases)) { caseRecord in
                         NavigationLink {
                             CaseDetailView(caseRecord: caseRecord)
@@ -173,16 +173,16 @@ struct GlobalSearchView: View {
             }
 
             // 快捷操作
-            Section("Quick Actions") {
+            Section("快捷操作") {
                 NavigationLink {
                     ContactListView()
                 } label: {
-                    Label("All contacts (\(allContacts.count))", systemImage: "person.3")
+                    Label("全部人脉 (\(allContacts.count))", systemImage: "person.3")
                 }
                 NavigationLink {
                     CaseListView()
                 } label: {
-                    Label("All cases (\(allCases.count))", systemImage: "doc.text")
+                    Label("全部案件 (\(allCases.count))", systemImage: "doc.text")
                 }
             }
         }

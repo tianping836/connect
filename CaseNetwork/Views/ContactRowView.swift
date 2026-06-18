@@ -82,13 +82,13 @@ struct ContactRowView: View {
             Button {
                 NotificationCenter.default.post(name: .editContactRequested, object: contact)
             } label: {
-                Label("Edit", systemImage: "pencil")
+                Label("编辑", systemImage: "pencil")
             }
 
             Button {
                 NotificationCenter.default.post(name: .addContactToCaseRequested, object: contact)
             } label: {
-                Label("Add to Case...", systemImage: "doc.badge.plus")
+                Label("加入案件……", systemImage: "doc.badge.plus")
             }
 
             Divider()
@@ -96,7 +96,7 @@ struct ContactRowView: View {
             Button(role: .destructive) {
                 deleteContact()
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("删除", systemImage: "trash")
             }
         }
     }

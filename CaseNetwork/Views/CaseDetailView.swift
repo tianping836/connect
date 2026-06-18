@@ -17,13 +17,13 @@ struct CaseDetailView: View {
         List {
             // MARK: - 基本信息
 
-            Section("Case Information") {
+            Section("案件信息") {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         CaseStageBadge(stage: caseRecord.caseStage)
                         Spacer()
                         if let date = caseRecord.filingDate {
-                            Text("File: \(date.formatted(date: .abbreviated, time: .omitted))")
+                            Text("立案: \(date.formatted(date: .abbreviated, time: .omitted))")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -33,37 +33,37 @@ struct CaseDetailView: View {
                         .font(.title3.weight(.bold))
 
                     if let courtNum = caseRecord.courtCaseNumber {
-                        LabeledContent("Case No.", value: courtNum)
+                        LabeledContent("案号", value: courtNum)
                     }
                     if let internalNum = caseRecord.internalCaseNumber {
-                        LabeledContent("Ref No.", value: internalNum)
+                        LabeledContent("委托号", value: internalNum)
                     }
-                    LabeledContent("Type") {
+                    LabeledContent("类型") {
                         Text(caseRecord.caseType.rawValue)
                     }
                     if let amount = caseRecord.claimAmount {
-                        LabeledContent("Amount") {
+                        LabeledContent("标的额") {
                             Text(amount.formatted(.currency(code: "CNY")))
                         }
                     }
                     if let summary = caseRecord.claimSummary {
-                        LabeledContent("Claim") {
+                        LabeledContent("诉请") {
                             Text(summary).lineLimit(3)
                         }
                     }
                     if let result = caseRecord.caseResult {
-                        LabeledContent("Result") {
+                        LabeledContent("结果") {
                             Text(result)
                                 .foregroundStyle(.green)
                         }
                     }
                     if let org = caseRecord.acceptedOrganization {
-                        LabeledContent("Organization") {
+                        LabeledContent("机构") {
                             Text("\(org.name) · \(org.type.rawValue)")
                         }
                     }
                     if let notes = caseRecord.notes {
-                        LabeledContent("Notes", value: notes)
+                        LabeledContent("备注", value: notes)
                     }
                 }
             }
@@ -78,11 +78,11 @@ struct CaseDetailView: View {
                 Button {
                     showAddParticipant = true
                 } label: {
-                    Label("Add participant", systemImage: "person.badge.plus")
+                    Label("添加参与人", systemImage: "person.badge.plus")
                 }
             } header: {
                 HStack {
-                    Text("Participants")
+                    Text("参与人")
                     Spacer()
                     Text("\(caseRecord.participants?.count ?? 0)")
                         .foregroundStyle(.secondary)
@@ -96,7 +96,7 @@ struct CaseDetailView: View {
                     HStack {
                         Image(systemName: "tray")
                             .foregroundStyle(.secondary)
-                        Text("Drag files from Finder here")
+                        Text("从访达拖放文件到此处")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -128,25 +128,25 @@ struct CaseDetailView: View {
                             Button {
                                 NSWorkspace.shared.open(url)
                             } label: {
-                                Label("Open", systemImage: "arrow.up.forward.app")
+                                Label("打开", systemImage: "arrow.up.forward.app")
                             }
                             Button {
                                 NSWorkspace.shared.activateFileViewerSelecting([url])
                             } label: {
-                                Label("Show in Finder", systemImage: "folder")
+                                Label("在访达中显示", systemImage: "folder")
                             }
                             Divider()
                             Button(role: .destructive) {
                                 removeDocument(at: idx)
                             } label: {
-                                Label("Remove", systemImage: "trash")
+                                Label("移除", systemImage: "trash")
                             }
                         }
                     }
                 }
             } header: {
                 HStack {
-                    Text("Documents")
+                    Text("文书附件")
                     Spacer()
                     Text("\(caseRecord.documentPaths.count)")
                         .foregroundStyle(.secondary)
@@ -156,27 +156,27 @@ struct CaseDetailView: View {
             // MARK: - 大事记时间轴
 
             if let events = caseRecord.keyEvents, !events.isEmpty {
-                Section("Timeline") {
+                Section("大事记") {
                     ForEach(events.sorted(by: { $0.date > $1.date })) { event in
                         timelineRow(event)
                             .contextMenu {
                                 Button {
                                     NotificationCenter.default.post(name: .editKeyEventRequested, object: event)
                                 } label: {
-                                    Label("Edit", systemImage: "pencil")
+                                    Label("编辑", systemImage: "pencil")
                                 }
                                 Divider()
                                 Button(role: .destructive) {
                                     deleteTimelineEvent(event)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label("删除", systemImage: "trash")
                                 }
                             }
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
                                     deleteTimelineEvent(event)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label("删除", systemImage: "trash")
                                 }
                             }
                     }
@@ -186,7 +186,7 @@ struct CaseDetailView: View {
             // MARK: - 关联案件（同机构/同委托人）
 
             if let relatedCases = relatedCases, !relatedCases.isEmpty {
-                Section("Related Cases") {
+                Section("关联案件") {
                     ForEach(relatedCases) { related in
                         NavigationLink {
                             CaseDetailView(caseRecord: related)
@@ -214,14 +214,14 @@ struct CaseDetailView: View {
             if showDropToast || showFileDropToast {
                 VStack(spacing: 8) {
                     if showDropToast {
-                        Text("\(droppedContactName) added to case")
+                        Text("\(droppedContactName) 已添加到案件")
                             .font(.subheadline.weight(.medium))
                             .padding(.horizontal, 16)
                             .padding(.vertical, 10)
                             .background(.ultraThinMaterial, in: .capsule)
                     }
                     if showFileDropToast {
-                        Text("\(droppedFileName) attached")
+                        Text("\(droppedFileName) 已添加")
                             .font(.subheadline.weight(.medium))
                             .padding(.horizontal, 16)
                             .padding(.vertical, 10)
@@ -236,7 +236,7 @@ struct CaseDetailView: View {
         .navigationTitle(caseRecord.caseName)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Edit") { showEdit = true }
+                Button("编辑") { showEdit = true }
             }
         }
         .sheet(isPresented: $showEdit) {
@@ -259,8 +259,8 @@ struct CaseDetailView: View {
         guard let parts = caseRecord.participants else { return [] }
         let grouped = Dictionary(grouping: parts) { $0.role.category }
         return [
-            ParticipantGroup(category: "official", label: "Officers", items: grouped[.officialRelated] ?? []),
-            ParticipantGroup(category: "party", label: "Parties & Contacts", items: grouped[.partyRelated] ?? []),
+            ParticipantGroup(category: "official", label: "经办人员", items: grouped[.officialRelated] ?? []),
+            ParticipantGroup(category: "party", label: "当事人相关", items: grouped[.partyRelated] ?? []),
         ].filter { !$0.items.isEmpty }
     }
 
@@ -337,7 +337,7 @@ struct CaseDetailView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "bell")
                             .font(.caption2)
-                        Text("Remind \(event.reminderDays.map(String.init).joined(separator: "/"))d")
+                        Text("提前 \(event.reminderDays.map(String.init).joined(separator: "/")) 天提醒")
                             .font(.caption2)
                     }
                     .foregroundStyle(.orange)

@@ -24,7 +24,7 @@ struct ImportContactsView: View {
                     deniedView
                 case .authorized:
                     if isLoading {
-                        ProgressView("Loading contacts…")
+                        ProgressView("正在加载通讯录…")
                     } else if showResult {
                         resultView
                     } else {
@@ -34,10 +34,10 @@ struct ImportContactsView: View {
                     requestAccessView
                 }
             }
-            .navigationTitle("Import from Contacts")
+            .navigationTitle("从通讯录导入")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
             }
             .task {
@@ -62,10 +62,10 @@ struct ImportContactsView: View {
                 .font(.system(size: 56))
                 .foregroundStyle(.blue)
 
-            Text("Access your contacts")
+            Text("访问你的通讯录")
                 .font(.title2.weight(.semibold))
 
-            Text("CaseNetwork needs permission to read your contacts for import. Your data stays on device.")
+            Text("CaseNetwork 需要读取通讯录以导入联系人。你的数据仅存储在本地。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -78,7 +78,7 @@ struct ImportContactsView: View {
                     if granted { await loadContacts() }
                 }
             } label: {
-                Label("Allow access", systemImage: "hand.raised")
+                Label("允许访问", systemImage: "hand.raised")
                     .frame(maxWidth: 240)
                     .padding(.vertical, 12)
             }
@@ -99,17 +99,17 @@ struct ImportContactsView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.orange)
 
-            Text("Contacts access denied")
+            Text("通讯录访问被拒绝")
                 .font(.title2.weight(.semibold))
 
-            Text("Go to Settings → Privacy → Contacts to enable access.")
+            Text("请前往 设置 → 隐私 → 通讯录 开启访问权限。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
             #if os(iOS)
-            Button("Open Settings") {
+            Button("打开设置") {
                 if let url = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(url)
                 }
@@ -127,7 +127,7 @@ struct ImportContactsView: View {
         VStack(spacing: 0) {
             // 全选/反选
             HStack {
-                Button(selectedIDs.count == allContacts.count ? "Deselect all" : "Select all") {
+                Button(selectedIDs.count == allContacts.count ? "取消全选" : "全选") {
                     if selectedIDs.count == allContacts.count {
                         selectedIDs.removeAll()
                     } else {
@@ -138,7 +138,7 @@ struct ImportContactsView: View {
 
                 Spacer()
 
-                Text("\(selectedIDs.count) selected")
+                Text("已选 \(selectedIDs.count) 人")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
@@ -158,7 +158,7 @@ struct ImportContactsView: View {
                     Button {
                         importSelected()
                     } label: {
-                        Label("Import \(selectedIDs.count) contact(s)", systemImage: "arrow.down.doc")
+                        Label("导入 \(selectedIDs.count) 人", systemImage: "arrow.down.doc")
                             .frame(maxWidth: 300)
                             .padding(.vertical, 12)
                     }
@@ -221,16 +221,16 @@ struct ImportContactsView: View {
                 .font(.system(size: 56))
                 .foregroundStyle(.green)
 
-            Text("Imported \(importedCount) contact(s)")
+            Text("已导入 \(importedCount) 人")
                 .font(.title2.weight(.semibold))
 
-            Text(importedCount > 0 ? "Contacts are now available in your contact list." : "No new contacts were imported (may be duplicates).")
+            Text(importedCount > 0 ? "联系人已添加到人脉列表中。" : "未导入新联系人（可能已存在）。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
-            Button("Done") { dismiss() }
+            Button("完成") { dismiss() }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
 

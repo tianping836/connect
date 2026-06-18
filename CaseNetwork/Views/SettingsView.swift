@@ -43,7 +43,7 @@ struct SettingsView: View {
                 dataSection
             }
             .formStyle(.grouped)
-            .navigationTitle("Settings")
+            .navigationTitle("设置")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif

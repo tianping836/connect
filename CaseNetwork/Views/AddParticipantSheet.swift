@@ -35,13 +35,13 @@ struct AddParticipantSheet: View {
                     roleAssignmentView
                 }
             }
-            .navigationTitle("Add Participant")
+            .navigationTitle("添加参与人")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
             }
-            .searchable(text: $searchText, prompt: "Search name, phone, organization...")
+            .searchable(text: $searchText, prompt: "搜索姓名、电话、机构……")
             .sheet(isPresented: $showNewContactSheet) {
                 ContactEditView()
             }
@@ -79,7 +79,7 @@ struct AddParticipantSheet: View {
                 .sorted { ($0.interactions?.count ?? 0) > ($1.interactions?.count ?? 0) }
                 .prefix(5)
             if !frequent.isEmpty && searchText.isEmpty {
-                Section("Frequent") {
+                Section("常用") {
                     ForEach(Array(frequent)) { contact in
                         contactRow(contact)
                     }
@@ -99,7 +99,7 @@ struct AddParticipantSheet: View {
                     }
                 }
             } else {
-                Section("\(filteredContacts.count) Result(s)") {
+                Section("\(filteredContacts.count) 个结果") {
                     ForEach(filteredContacts) { contact in
                         contactRow(contact)
                     }
@@ -111,7 +111,7 @@ struct AddParticipantSheet: View {
                 Button {
                     showNewContactSheet = true
                 } label: {
-                    Label("Create new contact: \"\(searchText)\"", systemImage: "person.badge.plus")
+                    Label("新建联系人: \"\(searchText)\"", systemImage: "person.badge.plus")
                 }
                 .disabled(searchText.isEmpty)
             }
@@ -179,14 +179,14 @@ struct AddParticipantSheet: View {
                     }
                 }
 
-                Button("Change") {
+                Button("更换") {
                     withAnimation { selectedContact = nil }
                 }
             }
 
             // 角色选择
-            Section("Role in this case") {
-                Picker("Role", selection: $selectedRole) {
+            Section("在本案中的角色") {
+                Picker("角色", selection: $selectedRole) {
                     ForEach(ParticipantRole.allCases) { role in
                         HStack {
                             Text(role.rawValue)
@@ -198,12 +198,12 @@ struct AddParticipantSheet: View {
                 }
                 .pickerStyle(.menu)
 
-                TextField("Detail (optional)", text: $roleDetail, prompt: Text("e.g., Presiding judge"))
+                TextField("具体职务（选填）", text: $roleDetail, prompt: Text("如: 审判长"))
             }
 
             // 备注
-            Section("Notes") {
-                TextField("Participation notes", text: $participantNotes, axis: .vertical)
+            Section("备注") {
+                TextField("参与备注", text: $participantNotes, axis: .vertical)
                     .lineLimit(2)
             }
 
@@ -212,7 +212,7 @@ struct AddParticipantSheet: View {
                 Button {
                     addParticipant()
                 } label: {
-                    Label("Confirm", systemImage: "checkmark")
+                    Label("确认添加", systemImage: "checkmark")
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)

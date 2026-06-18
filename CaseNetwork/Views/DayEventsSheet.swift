@@ -14,7 +14,7 @@ struct DayEventsSheet: View {
             Group {
                 if events.isEmpty {
                     ContentUnavailableView(
-                        "No events",
+                        "暂无事件",
                         systemImage: "calendar",
                         description: Text(date.formatted(.dateTime.month().day().weekday(.wide).locale(Locale(identifier: "zh_CN"))))
                     )
@@ -64,7 +64,7 @@ struct DayEventsSheet: View {
                                 Button(role: .destructive) {
                                     deleteEvent(event)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label("删除", systemImage: "trash")
                                 }
                             }
                         }
@@ -80,7 +80,7 @@ struct DayEventsSheet: View {
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Done") { dismiss() }
+                    Button("完成") { dismiss() }
                 }
             }
             .sheet(isPresented: $showAddEvent) {

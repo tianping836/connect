@@ -15,7 +15,7 @@ struct ContactDetailView: View {
         List {
             // MARK: - 基本信息
 
-            Section("Info") {
+            Section("基本信息") {
                 VStack(spacing: 12) {
                     // 头像 + 姓名 + 角色
                     HStack(spacing: 16) {
@@ -50,18 +50,18 @@ struct ContactDetailView: View {
 
                 // 联系方式
                 if let phone = contact.phone {
-                    LabeledContent("Phone", value: phone)
+                    LabeledContent("电话", value: phone)
                 }
                 if let wechat = contact.wechat {
-                    LabeledContent("WeChat", value: wechat)
+                    LabeledContent("微信", value: wechat)
                 }
                 if let email = contact.email {
-                    LabeledContent("Email", value: email)
+                    LabeledContent("邮箱", value: email)
                 }
 
                 // 机构
                 if let org = contact.organization {
-                    LabeledContent("Organization") {
+                    LabeledContent("机构") {
                         HStack(spacing: 4) {
                             Text(org.name)
                             Text("· \(org.type.rawValue)")
@@ -69,21 +69,21 @@ struct ContactDetailView: View {
                         }
                     }
                     if !contact.rolesInOrg.isEmpty {
-                        LabeledContent("Role in org") {
+                        LabeledContent("机构内角色") {
                             Text(contact.rolesInOrg.map(\.rawValue).joined(separator: ", "))
                         }
                     }
                 }
 
                 // 关系
-                LabeledContent("Relationship") {
+                LabeledContent("关系") {
                     Text(contact.relationshipStage.rawValue)
                 }
                 if let referrer = contact.referrer {
                     NavigationLink {
                         ContactDetailView(contact: referrer)
                     } label: {
-                        LabeledContent("Referrer") {
+                        LabeledContent("介绍人") {
                             Text(referrer.name)
                         }
                     }
@@ -91,29 +91,29 @@ struct ContactDetailView: View {
 
                 // 技能标签
                 if !contact.skillTags.isEmpty {
-                    LabeledContent("Skills") {
+                    LabeledContent("技能") {
                         Text(contact.skillTags.joined(separator: ", "))
                     }
                 }
 
                 // 软信息
                 if let pref = contact.preferences {
-                    LabeledContent("Preferences / Interests", value: pref)
+                    LabeledContent("偏好/兴趣", value: pref)
                 }
                 if let bday = contact.birthday {
-                    LabeledContent("Birthday") {
+                    LabeledContent("生日") {
                         Text(bday.formatted(date: .long, time: .omitted))
                     }
                 }
                 if let notes = contact.notes {
-                    LabeledContent("Notes", value: notes)
+                    LabeledContent("备注", value: notes)
                 }
             }
 
             // MARK: - 关联联系人（介绍人链）
 
             if let referrals = contact.referrals, !referrals.isEmpty {
-                Section("Introduced") {
+                Section("人脉圈") {
                     ForEach(referrals) { person in
                         NavigationLink {
                             ContactDetailView(contact: person)
@@ -127,17 +127,17 @@ struct ContactDetailView: View {
             // MARK: - 关联案件
 
             if let participations = contact.caseParticipations, !participations.isEmpty {
-                Section("Related cases (\(participations.count))") {
+                Section("关联案件 (\(participations.count))") {
                     // 当事人相关
                     let partyCases = participations.filter { $0.role.category == .partyRelated }
                     if !partyCases.isEmpty {
-                        caseGroup(title: "Client relation", participations: partyCases)
+                        caseGroup(title: "当事人相关", participations: partyCases)
                     }
 
                     // 经办人员
                     let officialCases = participations.filter { $0.role.category == .officialRelated }
                     if !officialCases.isEmpty {
-                        caseGroup(title: "Officer relation", participations: officialCases)
+                        caseGroup(title: "经办人员", participations: officialCases)
                     }
                 }
             }
@@ -161,7 +161,7 @@ struct ContactDetailView: View {
                         } label: {
                             HStack {
                                 Spacer()
-                                Text("See all \(sorted.count) interactions")
+                                Text("查看全部 \(sorted.count) 条互动")
                                     .font(.subheadline)
                                 Image(systemName: "chevron.down")
                                 Spacer()
@@ -171,7 +171,7 @@ struct ContactDetailView: View {
                     }
                 } header: {
                     HStack {
-                        Text("Interaction timeline (\(sorted.count))")
+                        Text("互动时间线 (\(sorted.count))")
                         Spacer()
                         Button {
                             showAddInteraction = true
@@ -183,18 +183,18 @@ struct ContactDetailView: View {
                     }
                 }
             } else {
-                Section("Interaction timeline") {
+                Section("互动记录") {
                     VStack(spacing: 12) {
                         Image(systemName: "clock.arrow.2.circlepath")
                             .font(.title2)
                             .foregroundStyle(.secondary)
-                        Text("No interactions recorded")
+                        Text("还没有互动记录")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         Button {
                             showAddInteraction = true
                         } label: {
-                            Label("Record your first interaction", systemImage: "plus")
+                            Label("记录第一条互动", systemImage: "plus")
                                 .font(.subheadline)
                         }
                     }
@@ -207,7 +207,7 @@ struct ContactDetailView: View {
         .navigationTitle(contact.name)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Edit") { showEdit = true }
+                Button("编辑") { showEdit = true }
             }
         }
         .sheet(isPresented: $showEdit) {
@@ -266,7 +266,7 @@ struct ContactDetailView: View {
                 modelContext.delete(interaction)
                 try? modelContext.save()
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("删除", systemImage: "trash")
             }
         }
     }

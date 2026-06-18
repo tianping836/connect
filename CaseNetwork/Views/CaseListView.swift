@@ -18,8 +18,8 @@ struct CaseListView: View {
                     listContent
                 }
             }
-            .navigationTitle("Cases")
-            .searchable(text: $viewModel.searchText, prompt: "Search cases, case numbers, courts...")
+            .navigationTitle("案件")
+            .searchable(text: $viewModel.searchText, prompt: "搜索案件、案号、法院……")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button { showAddCase = true } label: {
@@ -28,7 +28,7 @@ struct CaseListView: View {
                     .keyboardShortcut("n", modifiers: .command)
                 }
                 ToolbarItem(placement: .secondaryAction) {
-                    Toggle("Active only", isOn: $viewModel.showOnlyActive)
+                    Toggle("只看进行中", isOn: $viewModel.showOnlyActive)
                 }
             }
             .sheet(isPresented: $showAddCase) {
@@ -55,7 +55,7 @@ struct CaseListView: View {
             }
 
             if viewModel.isFiltering {
-                Section("\(viewModel.totalCount) Result(s)") {
+                Section("\(viewModel.totalCount) 个结果") {
                     ForEach(viewModel.casesByStage.flatMap(\.1)) { caseRecord in
                         caseRow(caseRecord)
                     }
@@ -121,7 +121,7 @@ struct CaseListView: View {
             CaseRowView(caseRecord: caseRecord)
         }
         .swipeActions(edge: .trailing) {
-            Button("Close", systemImage: "checkmark.seal") {
+            Button("结案", systemImage: "checkmark.seal") {
                 closeCase(caseRecord)
             }
             .tint(.green)
@@ -143,16 +143,16 @@ struct CaseListView: View {
             Image(systemName: "doc.text.magnifyingglass")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
-            Text("No cases yet")
+            Text("还没有案件")
                 .font(.title3.weight(.medium))
-            Text("Add your first case — criminal, civil, administrative...")
+            Text("添加你的第一个案件——刑事、民事、行政……")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             Button {
                 showAddCase = true
             } label: {
-                Label("Add your first case", systemImage: "plus")
+                Label("添加第一个案件", systemImage: "plus")
             }
             .buttonStyle(.borderedProminent)
         }

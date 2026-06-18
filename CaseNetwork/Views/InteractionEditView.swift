@@ -32,7 +32,7 @@ struct InteractionEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Type") {
+                Section("类型") {
                     LazyVGrid(columns: Array(repeating: .init(.flexible()), count: 4), spacing: 8) {
                         ForEach(InteractionType.allCases) { t in
                             typeButton(t)
@@ -41,12 +41,12 @@ struct InteractionEditView: View {
                 }
 
                 Section {
-                    DatePicker("Date", selection: $date, displayedComponents: .date)
-                    TextField("What happened", text: $detail, axis: .vertical)
+                    DatePicker("日期", selection: $date, displayedComponents: .date)
+                    TextField("内容", text: $detail, axis: .vertical)
                         .lineLimit(3...6)
                 }
 
-                Section("Amount (optional)") {
+                Section("金额（选填）") {
                     HStack {
                         Text("¥")
                             .foregroundStyle(.secondary)
@@ -58,20 +58,20 @@ struct InteractionEditView: View {
                 }
 
                 Section {
-                    Toggle("Follow-up reminder", isOn: $hasFollowUp)
+                    Toggle("跟进提醒", isOn: $hasFollowUp)
                     if hasFollowUp {
-                        DatePicker("Next follow-up", selection: $followUpDate, displayedComponents: .date)
+                        DatePicker("下次跟进", selection: $followUpDate, displayedComponents: .date)
                     }
                 }
             }
             .formStyle(.grouped)
-            .navigationTitle(existingInteraction != nil ? "Edit interaction" : "New interaction")
+            .navigationTitle(existingInteraction != nil ? "编辑互动" : "新建互动")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { save() }
+                    Button("保存") { save() }
                         .disabled(detail.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }

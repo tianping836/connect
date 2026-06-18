@@ -28,57 +28,57 @@ struct CaseEditView: View {
     @State private var notes = ""
 
     private var isEditing: Bool { caseRecord != nil }
-    private var title: String { isEditing ? "Edit" : "New Case" }
+    private var title: String { isEditing ? "编辑" : "新建案件" }
 
     var body: some View {
         NavigationStack {
             Form {
-                Section("Basic") {
-                    TextField("Case name *", text: $caseName)
-                    Picker("Type", selection: $caseType) {
+                Section("基本信息") {
+                    TextField("案件名称 *", text: $caseName)
+                    Picker("类型", selection: $caseType) {
                         ForEach(CaseType.allCases) { t in Text(t.rawValue).tag(t) }
                     }
-                    TextField("Court case No.", text: $courtCaseNumber)
-                    TextField("Reference No.", text: $internalCaseNumber)
+                    TextField("法院案号", text: $courtCaseNumber)
+                    TextField("委托号", text: $internalCaseNumber)
                 }
 
-                Section("Status & Stage") {
-                    Picker("Stage", selection: $caseStage) {
+                Section("状态与阶段") {
+                    Picker("阶段", selection: $caseStage) {
                         ForEach(CaseStage.allCases) { s in Text(s.rawValue).tag(s) }
                     }
                 }
 
-                Section("Amount & Claim") {
-                    Toggle("Has claim amount", isOn: $hasAmount)
+                Section("标的与诉请") {
+                    Toggle("有标的额", isOn: $hasAmount)
                     if hasAmount {
-                        TextField("Amount (CNY)", value: $claimAmount, format: .number)
+                        TextField("标的额（元）", value: $claimAmount, format: .number)
                     }
-                    TextField("Claim summary", text: $claimSummary, axis: .vertical)
+                    TextField("诉请摘要", text: $claimSummary, axis: .vertical)
                         .lineLimit(3)
                 }
 
-                Section("Dates") {
-                    Toggle("Filing date", isOn: $hasFilingDate)
+                Section("日期") {
+                    Toggle("立案日期", isOn: $hasFilingDate)
                     if hasFilingDate {
-                        DatePicker("Filing", selection: Binding(
+                        DatePicker("立案", selection: Binding(
                             get: { filingDate ?? Date() }, set: { filingDate = $0 }),
                                    displayedComponents: .date)
                     }
-                    Toggle("Closing date", isOn: $hasClosingDate)
+                    Toggle("结案日期", isOn: $hasClosingDate)
                     if hasClosingDate {
-                        DatePicker("Closing", selection: Binding(
+                        DatePicker("结案", selection: Binding(
                             get: { closingDate ?? Date() }, set: { closingDate = $0 }),
                                    displayedComponents: .date)
                     }
                 }
 
-                Section("Organization & Responsible") {
-                    Picker("Organization", selection: $selectedOrg) {
-                        Text("None").tag(nil as Organization?)
+                Section("机构与负责律师") {
+                    Picker("机构", selection: $selectedOrg) {
+                        Text("无").tag(nil as Organization?)
                         ForEach(organizations) { org in Text(org.name).tag(org as Organization?) }
                     }
-                    Picker("Responsible Lawyer", selection: $selectedLawyer) {
-                        Text("None").tag(nil as Contact?)
+                    Picker("负责律师", selection: $selectedLawyer) {
+                        Text("无").tag(nil as Contact?)
                         ForEach(contacts.filter { $0.roleTags.contains(.lawyer) }) { c in
                             Text(c.name).tag(c as Contact?)
                         }
@@ -86,23 +86,23 @@ struct CaseEditView: View {
                 }
 
                 if isEditing {
-                    Section("Result") {
-                        TextField("Case result", text: $caseResult, axis: .vertical)
+                    Section("结果") {
+                        TextField("案件结果", text: $caseResult, axis: .vertical)
                             .lineLimit(3)
                     }
                 }
 
-                Section("Notes") {
+                Section("备注") {
                     TextEditor(text: $notes).frame(minHeight: 60)
                 }
             }
             .navigationTitle(title)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
+                    Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { saveCase() }.disabled(caseName.isEmpty)
+                    Button("保存") { saveCase() }.disabled(caseName.isEmpty)
                 }
             }
             .onAppear { loadExisting() }

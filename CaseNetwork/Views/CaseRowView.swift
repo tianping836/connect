@@ -75,18 +75,18 @@ struct CaseRowView: View {
         }
         .padding(.vertical, 4)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(caseRecord.caseName), \(caseRecord.caseStage.rawValue), \(caseRecord.participants?.count ?? 0) participants")
+        .accessibilityLabel("\(caseRecord.caseName), \(caseRecord.caseStage.rawValue), \(caseRecord.participants?.count ?? 0) 人参与")
         .contextMenu {
             Button {
                 NotificationCenter.default.post(name: .editCaseRequested, object: caseRecord)
             } label: {
-                Label("Edit", systemImage: "pencil")
+                Label("编辑", systemImage: "pencil")
             }
 
             Button {
                 NotificationCenter.default.post(name: .newItemRequested, object: AppTab.cases)
             } label: {
-                Label("New Case", systemImage: "doc.badge.plus")
+                Label("新建案件", systemImage: "doc.badge.plus")
             }
 
             Divider()
@@ -94,7 +94,7 @@ struct CaseRowView: View {
             Button(role: .destructive) {
                 deleteCase()
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("删除", systemImage: "trash")
             }
         }
     }

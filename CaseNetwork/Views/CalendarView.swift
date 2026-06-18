@@ -35,7 +35,7 @@ struct CalendarView: View {
                     upcomingEvents
                 }
             }
-            .navigationTitle("Calendar")
+            .navigationTitle("日历")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button { showAddEvent = true } label: {
@@ -44,7 +44,7 @@ struct CalendarView: View {
                     .keyboardShortcut("n", modifiers: .command)
                 }
                 ToolbarItem(placement: .secondaryAction) {
-                    Picker("View", selection: $viewModel.viewMode) {
+                    Picker("视图", selection: $viewModel.viewMode) {
                         ForEach(CalendarViewModel.ViewMode.allCases, id: \.self) { m in
                             Text(m.rawValue).tag(m)
                         }
@@ -73,9 +73,9 @@ struct CalendarView: View {
 
     private var statsBar: some View {
         HStack(spacing: 24) {
-            StatItem(value: "\(viewModel.eventsThisMonth)", label: "Events", color: .blue)
-            StatItem(value: "\(viewModel.hearingsThisMonth)", label: "Court", color: .red)
-            StatItem(value: "\(allCases.filter(\.caseStage.isActive).count)", label: "Active", color: .orange)
+            StatItem(value: "\(viewModel.eventsThisMonth)", label: "本月事件", color: .blue)
+            StatItem(value: "\(viewModel.hearingsThisMonth)", label: "开庭", color: .red)
+            StatItem(value: "\(allCases.filter(\.caseStage.isActive).count)", label: "进行中", color: .orange)
         }
         .padding(.vertical, 8)
         .frame(maxWidth: .infinity)
@@ -111,7 +111,7 @@ struct CalendarView: View {
     // MARK: - 星期头
 
     private var weekdayHeader: some View {
-        let weekdays: [String] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        let weekdays: [String] = ["一", "二", "三", "四", "五", "六", "日"]
         return HStack {
             ForEach(weekdays, id: \.self) { day in
                 Text(day)
@@ -192,7 +192,7 @@ struct CalendarView: View {
                 Text(date.formatted(.dateTime.month().day().weekday(.wide).locale(Locale(identifier: "zh_CN"))))
                     .font(.subheadline.weight(.medium))
                 Spacer()
-                Text("\(events.count) events")
+                Text("\(events.count) 个事件")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -200,7 +200,7 @@ struct CalendarView: View {
             .padding(.top, 8)
 
             if events.isEmpty {
-                Text("No events")
+                Text("暂无事件")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .padding()
@@ -225,7 +225,7 @@ struct CalendarView: View {
 
         return VStack(alignment: .leading, spacing: 0) {
             HStack {
-                Text("Upcoming")
+                Text("即将到来")
                     .font(.subheadline.weight(.medium))
                 Spacer()
             }
@@ -233,7 +233,7 @@ struct CalendarView: View {
             .padding(.top, 8)
 
             if upcoming.isEmpty {
-                Text("No upcoming events")
+                Text("暂无即将到来的事件")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .padding()
@@ -279,7 +279,7 @@ struct CalendarView: View {
             Button {
                 NotificationCenter.default.post(name: .editKeyEventRequested, object: event)
             } label: {
-                Label("Edit", systemImage: "pencil")
+                Label("编辑", systemImage: "pencil")
             }
 
             Divider()
@@ -287,14 +287,14 @@ struct CalendarView: View {
             Button(role: .destructive) {
                 deleteEvent(event)
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("删除", systemImage: "trash")
             }
         }
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) {
                 deleteEvent(event)
             } label: {
-                Label("Delete", systemImage: "trash")
+                Label("删除", systemImage: "trash")
             }
         }
     }

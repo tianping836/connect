@@ -90,18 +90,18 @@ struct CaseNetworkApp: App {
     private var sidebarCommands: some Commands {
         // File 菜单
         CommandGroup(after: .newItem) {
-            Menu("New") {
-                Button("New Contact") {
+            Menu("新建") {
+                Button("新建联系人") {
                     NotificationCenter.default.post(name: .newItemRequested, object: AppTab.contacts)
                 }
                 .keyboardShortcut("n", modifiers: .command)
 
-                Button("New Case") {
+                Button("新建案件") {
                     NotificationCenter.default.post(name: .newItemRequested, object: AppTab.cases)
                 }
                 .keyboardShortcut("n", modifiers: [.command, .shift])
 
-                Button("New Event") {
+                Button("新建事件") {
                     NotificationCenter.default.post(name: .newItemRequested, object: AppTab.calendar)
                 }
                 .keyboardShortcut("n", modifiers: [.command, .option])
@@ -109,21 +109,21 @@ struct CaseNetworkApp: App {
         }
 
         // View 菜单
-        CommandMenu("Navigate") {
-            Button("Search") { activeTab = .search }
+        CommandMenu("导航") {
+            Button("搜索") { activeTab = .search }
                 .keyboardShortcut("1", modifiers: .command)
-            Button("Contacts") { activeTab = .contacts }
+            Button("人脉") { activeTab = .contacts }
                 .keyboardShortcut("2", modifiers: .command)
-            Button("Cases") { activeTab = .cases }
+            Button("案件") { activeTab = .cases }
                 .keyboardShortcut("3", modifiers: .command)
-            Button("Calendar") { activeTab = .calendar }
+            Button("日历") { activeTab = .calendar }
                 .keyboardShortcut("4", modifiers: .command)
-            Button("Settings") { activeTab = .settings }
+            Button("设置") { activeTab = .settings }
                 .keyboardShortcut("5", modifiers: .command)
 
             Divider()
 
-            Button("Find…") {
+            Button("查找…") {
                 activeTab = .search
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     NotificationCenter.default.post(name: .focusSearchRequested, object: nil)
@@ -134,7 +134,7 @@ struct CaseNetworkApp: App {
 
         // Window 菜单
         CommandGroup(replacing: .windowSize) {
-            Button("Default Size") {
+            Button("默认窗口大小") {
                 NSApplication.shared.keyWindow?.setContentSize(NSSize(width: 1100, height: 700))
             }
             .keyboardShortcut("0", modifiers: [.command])
@@ -178,23 +178,23 @@ struct AdaptiveContentView: View {
     private var iPhoneLayout: some View {
         TabView(selection: $activeTab) {
             GlobalSearchView()
-                .tabItem { Label("Search", systemImage: "magnifyingglass") }
+                .tabItem { Label("搜索", systemImage: "magnifyingglass") }
                 .tag(AppTab.search)
 
             ContactListView()
-                .tabItem { Label("Contacts", systemImage: "person.3.fill") }
+                .tabItem { Label("人脉", systemImage: "person.3.fill") }
                 .tag(AppTab.contacts)
 
             CaseListView()
-                .tabItem { Label("Cases", systemImage: "doc.text.fill") }
+                .tabItem { Label("案件", systemImage: "doc.text.fill") }
                 .tag(AppTab.cases)
 
             CalendarView()
-                .tabItem { Label("Calendar", systemImage: "calendar") }
+                .tabItem { Label("日历", systemImage: "calendar") }
                 .tag(AppTab.calendar)
 
             SettingsView()
-                .tabItem { Label("Settings", systemImage: "gearshape") }
+                .tabItem { Label("设置", systemImage: "gearshape") }
                 .tag(AppTab.settings)
         }
         .tint(.blue)
@@ -218,17 +218,17 @@ struct AdaptiveContentView: View {
     private var sidebar: some View {
         List(selection: $activeTab) {
             Section("CaseNetwork") {
-                Label("Search", systemImage: "magnifyingglass")
+                Label("搜索", systemImage: "magnifyingglass")
                     .tag(AppTab.search)
-                Label("Contacts", systemImage: "person.3.fill")
+                Label("人脉", systemImage: "person.3.fill")
                     .tag(AppTab.contacts)
-                Label("Cases", systemImage: "doc.text.fill")
+                Label("案件", systemImage: "doc.text.fill")
                     .tag(AppTab.cases)
-                Label("Calendar", systemImage: "calendar")
+                Label("日历", systemImage: "calendar")
                     .tag(AppTab.calendar)
             }
             Section {
-                Label("Settings", systemImage: "gearshape")
+                Label("设置", systemImage: "gearshape")
                     .tag(AppTab.settings)
             }
         }
@@ -258,9 +258,9 @@ struct AdaptiveContentView: View {
 
     private var placeholderDetail: some View {
         ContentUnavailableView(
-            "Select an item",
+            "选择一项",
             systemImage: "rectangle.lefthalf.inset.filled",
-            description: Text("Choose a contact, case, or event from the list.")
+            description: Text("从列表中选择一个人脉、案件或事件。")
         )
     }
 }
