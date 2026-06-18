@@ -17,7 +17,7 @@ echo ""
 echo "📦 制作 DMG..."
 rm -rf "$BUILD_DIR/dmg-content"
 mkdir -p "$BUILD_DIR/dmg-content"
-cp -R /Applications/CaseNetwork.app "$BUILD_DIR/dmg-content/连接.app"
+cp -R /Applications/连接.app "$BUILD_DIR/dmg-content/连接.app"
 ln -s /Applications "$BUILD_DIR/dmg-content/Applications"
 
 DMG="$BUILD_DIR/连接-CaseNetwork-$(date +%Y%m%d).dmg"

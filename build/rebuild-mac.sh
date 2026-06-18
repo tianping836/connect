@@ -47,6 +47,10 @@ mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
 
 # Binary
 cp "$DERIVED_DATA/Build/Products/Debug/$APP_NAME" "$APP_DIR/Contents/MacOS/$APP_NAME"
+# 如果 SPM 二进制名字和 CFBundleExecutable 不同，重命名
+if [ "$APP_NAME" != "CaseNetwork" ]; then
+    mv "$APP_DIR/Contents/MacOS/CaseNetwork" "$APP_DIR/Contents/MacOS/$APP_NAME" 2>/dev/null || true
+fi
 chmod +x "$APP_DIR/Contents/MacOS/$APP_NAME"
 
 # Resources
