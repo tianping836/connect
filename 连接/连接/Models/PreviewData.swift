@@ -239,6 +239,22 @@ enum PreviewData {
         ]
         interactions.forEach { modelContext.insert($0) }
 
+        // MARK: - 人脉关系（交叉连线）
+
+        let relations: [ContactRelation] = [
+            // 方文博 和 王丽娜 是同事（同律所）
+            ContactRelation(source: fangWB, target: wangLN, type: .colleague, note: "明德律师事务所合伙人"),
+            // 方文博 和 李雪梅 是同学
+            ContactRelation(source: fangWB, target: liXM, type: .classmate, note: "北大法学院同学"),
+            // 陈国栋 和 钱大军 是朋友
+            ContactRelation(source: chenGD, target: qianDJ, type: .friend, note: "多年好友"),
+            // 王朝阳 和 赵永刚 是同事（不同法院但相识）
+            ContactRelation(source: wangCY, target: zhaoYG, type: .acquaintance, note: "行业会议认识"),
+            // 杨志伟 和 唐建华 是业务合作关系
+            ContactRelation(source: yangZW, target: tangJH, type: .business, note: "审计项目合作"),
+        ]
+        relations.forEach { modelContext.insert($0) }
+
         try? modelContext.save()
     }
 
