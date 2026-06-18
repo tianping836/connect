@@ -15,3 +15,5 @@ build/DerivedData/
 build/*.app/
 build/AppIcon.iconset/
 *.profraw
+*.xcuserdata
+*.xcuserstate
