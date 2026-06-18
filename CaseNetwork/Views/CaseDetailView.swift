@@ -117,7 +117,7 @@ struct CaseDetailView: View {
                             }
                             Spacer()
                             Button {
-                                NSWorkspace.shared.open(url)
+                                openFile(url)
                             } label: {
                                 Image(systemName: "arrow.up.forward.app")
                                     .font(.caption)
@@ -126,15 +126,17 @@ struct CaseDetailView: View {
                         }
                         .contextMenu {
                             Button {
-                                NSWorkspace.shared.open(url)
+                                openFile(url)
                             } label: {
                                 Label("打开", systemImage: "arrow.up.forward.app")
                             }
+                            #if os(macOS)
                             Button {
                                 NSWorkspace.shared.activateFileViewerSelecting([url])
                             } label: {
                                 Label("在访达中显示", systemImage: "folder")
                             }
+                            #endif
                             Divider()
                             Button(role: .destructive) {
                                 removeDocument(at: idx)
@@ -443,6 +445,14 @@ struct CaseDetailView: View {
         try? FileManager.default.removeItem(atPath: path)
         caseRecord.documentPaths = paths
         try? modelContext.save()
+    }
+
+    private func openFile(_ url: URL) {
+        #if os(macOS)
+        NSWorkspace.shared.open(url)
+        #elseif os(iOS)
+        UIApplication.shared.open(url)
+        #endif
     }
 
     private func fileIcon(for ext: String) -> String {

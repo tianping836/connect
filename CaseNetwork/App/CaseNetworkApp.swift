@@ -216,24 +216,46 @@ struct AdaptiveContentView: View {
     // MARK: 侧栏
 
     private var sidebar: some View {
-        List(selection: $activeTab) {
-            Section("连接") {
-                Label("搜索", systemImage: "magnifyingglass")
-                    .tag(AppTab.search)
-                Label("人脉", systemImage: "person.3.fill")
-                    .tag(AppTab.contacts)
-                Label("案件", systemImage: "doc.text.fill")
-                    .tag(AppTab.cases)
-                Label("日历", systemImage: "calendar")
-                    .tag(AppTab.calendar)
+        Group {
+            #if os(macOS)
+            List(selection: $activeTab) {
+                sidebarContent
             }
-            Section {
-                Label("设置", systemImage: "gearshape")
-                    .tag(AppTab.settings)
+            #else
+            List {
+                sidebarContent
             }
+            #endif
         }
         .navigationTitle("连接")
+        #if os(macOS)
         .listStyle(.sidebar)
+        #endif
+    }
+
+    @ViewBuilder
+    private var sidebarContent: some View {
+        Section("连接") {
+            sidebarItem(tab: .search, icon: "magnifyingglass", label: "搜索")
+            sidebarItem(tab: .contacts, icon: "person.3.fill", label: "人脉")
+            sidebarItem(tab: .cases, icon: "doc.text.fill", label: "案件")
+            sidebarItem(tab: .calendar, icon: "calendar", label: "日历")
+        }
+        Section {
+            sidebarItem(tab: .settings, icon: "gearshape", label: "设置")
+        }
+    }
+
+    private func sidebarItem(tab: AppTab, icon: String, label: String) -> some View {
+        Button {
+            activeTab = tab
+        } label: {
+            Label(label, systemImage: icon)
+        }
+        .buttonStyle(.plain)
+        #if os(macOS)
+        .tag(tab)
+        #endif
     }
 
     // MARK: 内容栏——按选中的 Tab 切换
