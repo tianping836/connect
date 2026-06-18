@@ -695,6 +695,83 @@ final class DataExportService {
         return val.isEmpty ? nil : val
     }
 
+    // MARK: - CSV 人脉导入
+
+    /// 从 CSV 文件导入人脉（支持 Numbers/Excel 导出的 CSV）
+    ///
+    /// 期望列（自动检测表头）：姓名、电话、微信、邮箱、角色、机构、关系阶段、备注
+    func importContactsFromCSV(_ url: URL, modelContext: ModelContext) throws -> Int {
+        let content = try String(contentsOf: url, encoding: .utf8)
+        let lines = parseCSVLines(content)
+        guard lines.count >= 2 else { throw ImportError.emptyFile }
+
+        let header = lines[0].map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+        var colMap: [String: Int] = [:]
+        for (i, h) in header.enumerated() { colMap[h] = i }
+
+        func colVal(_ keys: String..., in line: [String]) -> String? {
+            for k in keys {
+                if let idx = colMap[k], idx < line.count {
+                    let v = line[idx].trimmingCharacters(in: .whitespaces)
+                    if !v.isEmpty { return v }
+                }
+            }
+            return nil
+        }
+
+        let allOrgs = (try? modelContext.fetch(FetchDescriptor<Organization>())) ?? []
+        let allExisting = (try? modelContext.fetch(FetchDescriptor<Contact>())) ?? []
+
+        var imported = 0
+        for line in lines.dropFirst() {
+            guard line.count >= 1, !line.allSatisfy({ $0.isEmpty }) else { continue }
+
+            let name = colVal("姓名", "name", "名字", in: line)
+            guard let name = name else { continue }
+
+            // 去重
+            let phone = colVal("电话", "手机", "phone", "tel", in: line)
+            if allExisting.contains(where: { $0.name == name && $0.phone == phone }) { continue }
+
+            let wechat = colVal("微信", "wechat", in: line)
+            let email = colVal("邮箱", "email", "邮件", in: line)
+            let roleStr = colVal("角色", "role", "标签", in: line)
+            let roleTags: [ContactRole] = roleStr?.components(separatedBy: CharacterSet(charactersIn: ";,，；"))
+                .compactMap { seg in
+                    let t = seg.trimmingCharacters(in: .whitespaces)
+                    for role in ContactRole.allCases { if role.rawValue == t { return role } }
+                    return nil
+                } ?? []
+
+            let orgName = colVal("机构", "单位", "organization", "company", "org", in: line)
+            let org: Organization? = orgName.flatMap { name in
+                if let existing = allOrgs.first(where: { $0.name == name }) { return existing }
+                let newOrg = Organization(name: name)
+                modelContext.insert(newOrg)
+                return newOrg
+            }
+
+            let stageStr = colVal("关系阶段", "阶段", "stage", "关系", in: line)
+            let stage = RelationshipStage.allCases.first(where: { $0.rawValue == stageStr }) ?? .newAcquaintance
+
+            let notes = colVal("备注", "notes", "note", "说明", in: line)
+
+            let contact = Contact(
+                name: name,
+                phone: phone, wechat: wechat, email: email,
+                roleTags: roleTags,
+                organization: org,
+                relationshipStage: stage,
+                notes: notes
+            )
+            modelContext.insert(contact)
+            imported += 1
+        }
+
+        if imported > 0 { try modelContext.save() }
+        return imported
+    }
+
     enum ImportError: Error, LocalizedError {
         case emptyFile
 

@@ -19,6 +19,7 @@ struct SettingsView: View {
     @State private var showImporter = false
     @State private var showCSVImporter = false
     @State private var importMode: ImportMode = .json
+    @State private var showContactsCSVImporter = false
     @State private var lastActionResult: ActionResult?
 
     let biometryName = BiometricAuthService.shared.biometryName
@@ -60,6 +61,13 @@ struct SettingsView: View {
                 allowsMultipleSelection: false
             ) { result in
                 handleCSVImport(result)
+            }
+            .fileImporter(
+                isPresented: $showContactsCSVImporter,
+                allowedContentTypes: [.commaSeparatedText, .delimitedText],
+                allowsMultipleSelection: false
+            ) { result in
+                handleContactsCSVImport(result)
             }
             .alert("清除全部数据", isPresented: $showClearConfirmation) {
                 clearConfirmationButtons
@@ -187,6 +195,13 @@ struct SettingsView: View {
                 Label("从 CSV 导入案件...", systemImage: "tablecells.badge.arrow.down")
             }
 
+            // CSV 导入人脉
+            Button {
+                showContactsCSVImporter = true
+            } label: {
+                Label("从 CSV 导入人脉...", systemImage: "person.text.rectangle")
+            }
+
             Divider()
 
             // 清除全部数据
@@ -286,6 +301,21 @@ struct SettingsView: View {
             do {
                 let count = try DataExportService.shared.importCasesFromCSV(url, modelContext: modelContext)
                 lastActionResult = .init(message: "已导入 \(count) 个案件", isError: false)
+            } catch {
+                lastActionResult = .init(message: "导入失败: \(error.localizedDescription)", isError: true)
+            }
+        case .failure(let error):
+            lastActionResult = .init(message: "文件选择失败: \(error.localizedDescription)", isError: true)
+        }
+    }
+
+    private func handleContactsCSVImport(_ result: Result<[URL], Error>) {
+        switch result {
+        case .success(let urls):
+            guard let url = urls.first else { return }
+            do {
+                let count = try DataExportService.shared.importContactsFromCSV(url, modelContext: modelContext)
+                lastActionResult = .init(message: "已导入 \(count) 位人脉", isError: false)
             } catch {
                 lastActionResult = .init(message: "导入失败: \(error.localizedDescription)", isError: true)
             }
