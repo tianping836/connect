@@ -11,13 +11,23 @@ struct CaseNetworkApp: App {
     let container: ModelContainer
     @State private var activeTab: AppTab = .search
     @Environment(\.scenePhase) private var scenePhase
+    @AppStorage("has_seen_onboarding") private var hasSeenOnboarding = false
 
     init() {
         container = ModelContainer.appContainer
-        if isFirstLaunch() {
-            PreviewData.create(modelContext: container.mainContext)
+        // 若非首次启动且跳过引导 → 补建预览数据
+        let launchedBefore = UserDefaults.standard.bool(forKey: "has_launched_before")
+        if launchedBefore && !hasSeenOnboarding {
+            // 之前启动过但没看过引导 = 升级用户，跳过引导
+            hasSeenOnboarding = true
         }
-        // 请求通知权限（首次启动时系统弹窗，之后静默返回当前状态）
+        if launchedBefore {
+            // 已启动过 → 正常
+        } else {
+            // 真正的首次启动 → 标记，引导页接管数据初始化
+            UserDefaults.standard.set(true, forKey: "has_launched_before")
+        }
+        // 请求通知权限
         Task { @MainActor in
             let granted = await NotificationService.shared.requestAuthorization()
             print("[CaseNetwork] Notification authorization: \(granted ? "granted" : "denied")")
@@ -32,7 +42,7 @@ struct CaseNetworkApp: App {
             #if os(macOS)
                 .frame(minWidth: 800, minHeight: 500)
             #endif
-                // Phase 6: 应用锁遮罩
+                // 应用锁遮罩
                 .overlay {
                     if BiometricAuthService.shared.isAppLocked {
                         AppLockView()
@@ -40,6 +50,21 @@ struct CaseNetworkApp: App {
                     }
                 }
                 .animation(.easeInOut(duration: 0.25), value: BiometricAuthService.shared.isAppLocked)
+                // 首次引导
+                .sheet(isPresented: Binding(
+                    get: { !hasSeenOnboarding },
+                    set: { if !$0 { hasSeenOnboarding = true } }
+                )) {
+                    OnboardingView()
+                        .onDisappear {
+                            hasSeenOnboarding = true
+                            // 引导结束后，如果数据库为空，建预览数据
+                            ensurePreviewData()
+                        }
+                        #if os(macOS)
+                        .frame(width: 520, height: 620)
+                        #endif
+                }
         }
         #if os(macOS)
         .defaultSize(width: 1100, height: 700)
@@ -119,13 +144,17 @@ struct CaseNetworkApp: App {
     }
     #endif
 
-    private func isFirstLaunch() -> Bool {
-        let key = "has_launched_before"
-        let launched = UserDefaults.standard.bool(forKey: key)
-        if !launched {
-            UserDefaults.standard.set(true, forKey: key)
+    /// 如果数据库为空，填充预览数据（引导结束后调用）
+    private func ensurePreviewData() {
+        let ctx = container.mainContext
+        do {
+            let contactCount = try ctx.fetchCount(FetchDescriptor<Contact>())
+            if contactCount == 0 {
+                PreviewData.create(modelContext: ctx)
+            }
+        } catch {
+            PreviewData.create(modelContext: ctx)
         }
-        return !launched
     }
 }
 

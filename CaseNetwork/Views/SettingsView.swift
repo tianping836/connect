@@ -17,6 +17,8 @@ struct SettingsView: View {
     @State private var cloudSyncEnabled: Bool
     @State private var showClearConfirmation = false
     @State private var showImporter = false
+    @State private var showCSVImporter = false
+    @State private var importMode: ImportMode = .json
     @State private var lastActionResult: ActionResult?
 
     let biometryName = BiometricAuthService.shared.biometryName
@@ -51,6 +53,13 @@ struct SettingsView: View {
                 allowsMultipleSelection: false
             ) { result in
                 handleImport(result)
+            }
+            .fileImporter(
+                isPresented: $showCSVImporter,
+                allowedContentTypes: [.commaSeparatedText, .delimitedText],
+                allowsMultipleSelection: false
+            ) { result in
+                handleCSVImport(result)
             }
             .alert("清除全部数据", isPresented: $showClearConfirmation) {
                 clearConfirmationButtons
@@ -164,9 +173,18 @@ struct SettingsView: View {
 
             // JSON 导入
             Button {
+                importMode = .json
                 showImporter = true
             } label: {
                 Label("从 JSON 导入...", systemImage: "square.and.arrow.down")
+            }
+
+            // CSV 导入案件
+            Button {
+                importMode = .csv
+                showCSVImporter = true
+            } label: {
+                Label("从 CSV 导入案件...", systemImage: "tablecells.badge.arrow.down")
             }
 
             Divider()
@@ -261,6 +279,21 @@ struct SettingsView: View {
         }
     }
 
+    private func handleCSVImport(_ result: Result<[URL], Error>) {
+        switch result {
+        case .success(let urls):
+            guard let url = urls.first else { return }
+            do {
+                let count = try DataExportService.shared.importCasesFromCSV(url, modelContext: modelContext)
+                lastActionResult = .init(message: "已导入 \(count) 个案件", isError: false)
+            } catch {
+                lastActionResult = .init(message: "导入失败: \(error.localizedDescription)", isError: true)
+            }
+        case .failure(let error):
+            lastActionResult = .init(message: "文件选择失败: \(error.localizedDescription)", isError: true)
+        }
+    }
+
     // MARK: - 跨平台工具
 
     /// 在 Finder / 文件中显示
@@ -315,6 +348,10 @@ struct SettingsView: View {
 }
 
 // MARK: - 辅助类型
+
+private enum ImportMode {
+    case json, csv
+}
 
 private enum CSVExportType {
     case contacts, cases, organizations, events

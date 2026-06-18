@@ -16,6 +16,7 @@ struct ContactListView: View {
 
     @State private var viewModel = ContactListViewModel()
     @State private var showAddContact = false
+    @State private var showImportContacts = false
     @FocusState private var searchFocused: Bool
 
     var body: some View {
@@ -34,6 +35,9 @@ struct ContactListView: View {
             }
             .sheet(isPresented: $showAddContact) {
                 ContactEditView()
+            }
+            .sheet(isPresented: $showImportContacts) {
+                ImportContactsView()
             }
             .onReceive(NotificationCenter.default.publisher(for: .newItemRequested)) { notif in
                 if let tab = notif.object as? AppTab, tab == .contacts {
@@ -195,6 +199,12 @@ struct ContactListView: View {
         ToolbarItem(placement: .secondaryAction) {
             Menu {
                 Toggle("Show archived", isOn: $viewModel.showArchived)
+                Divider()
+                Button {
+                    showImportContacts = true
+                } label: {
+                    Label("Import from Contacts", systemImage: "person.crop.circle.badge.plus")
+                }
             } label: {
                 Image(systemName: "ellipsis.circle")
             }

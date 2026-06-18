@@ -1,20 +1,21 @@
 import SwiftUI
 import SwiftData
 
-/// 全局搜索——同时搜索联系人和案件，分组展示
+/// 全局搜索——同时搜索联系人和案件，分组展示 + 搜索历史
 struct GlobalSearchView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Contact.name) private var allContacts: [Contact]
     @Query(sort: \CaseRecord.caseName) private var allCases: [CaseRecord]
 
     @State private var searchText = ""
+    @State private var history = SearchHistory.shared.items
     @FocusState private var isFocused: Bool
 
     var body: some View {
         NavigationStack {
             Group {
                 if searchText.isEmpty {
-                    recentSection
+                    defaultView
                 } else {
                     searchResults
                 }
@@ -22,6 +23,13 @@ struct GlobalSearchView: View {
             .navigationTitle("Search")
             .searchable(text: $searchText, placement: .automatic, prompt: "Search names, cases, courts, tags...")
             .focused($isFocused)
+            .onSubmit(of: .search) {
+                // 提交搜索时记录历史
+                if !searchText.isEmpty {
+                    SearchHistory.shared.add(searchText)
+                    history = SearchHistory.shared.items
+                }
+            }
             .onReceive(NotificationCenter.default.publisher(for: .newItemRequested)) { notif in
                 if let tab = notif.object as? AppTab, tab == .search {
                     isFocused = true
@@ -30,7 +38,10 @@ struct GlobalSearchView: View {
             .onReceive(NotificationCenter.default.publisher(for: .focusSearchRequested)) { _ in
                 isFocused = true
             }
-            .onAppear { isFocused = true }
+            .onAppear {
+                isFocused = true
+                history = SearchHistory.shared.items
+            }
         }
     }
 
@@ -81,10 +92,53 @@ struct GlobalSearchView: View {
         .listStyle(.inset)
     }
 
-    // MARK: - 快捷入口（未搜索时）
+    // MARK: - 默认视图（搜索历史 + 快捷入口）
 
-    private var recentSection: some View {
+    private var defaultView: some View {
         List {
+            // 搜索历史
+            if !history.isEmpty {
+                Section {
+                    ForEach(history, id: \.self) { item in
+                        Button {
+                            searchText = item
+                        } label: {
+                            HStack {
+                                Image(systemName: "clock.arrow.circlepath")
+                                    .foregroundStyle(.secondary)
+                                    .font(.caption)
+                                Text(item)
+                                    .foregroundStyle(.primary)
+                                Spacer()
+                                Button {
+                                    withAnimation {
+                                        SearchHistory.shared.remove(item)
+                                        history = SearchHistory.shared.items
+                                    }
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+                } header: {
+                    HStack {
+                        Text("Recent searches")
+                        Spacer()
+                        Button("Clear") {
+                            withAnimation {
+                                SearchHistory.shared.clear()
+                                history = []
+                            }
+                        }
+                        .font(.caption)
+                    }
+                }
+            }
+
             // 重要联系人
             let important = allContacts
                 .filter { $0.importance >= 4 && !$0.isArchived }

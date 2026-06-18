@@ -566,4 +566,142 @@ final class DataExportService {
         f.dateFormat = "yyyy-MM-dd"
         return f.string(from: date)
     }
+
+    // MARK: - CSV 案件导入
+
+    /// 从 CSV 文件导入案件（支持 Excel/Numbers 导出的 CSV）
+    ///
+    /// 期望列（自动检测表头，大小写不敏感）：
+    /// "案件名称"、"案件类型"、"案号"、"案件阶段"、"标的额"、"立案时间"、"受理机构"、"备注"
+    ///
+    /// - Returns: 导入的案件数量
+    func importCasesFromCSV(_ url: URL, modelContext: ModelContext) throws -> Int {
+        let content = try String(contentsOf: url, encoding: .utf8)
+        let lines = parseCSVLines(content)
+        guard lines.count >= 2 else { throw ImportError.emptyFile }
+
+        // 解析表头，建立列索引映射
+        let header = lines[0].map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+        var colMap: [String: Int] = [:]
+        for (i, h) in header.enumerated() {
+            colMap[h] = i
+        }
+
+        // 日期解析器
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let altDateFormatter = DateFormatter()
+        altDateFormatter.dateFormat = "yyyy/M/d"
+
+        func parseDate(_ s: String) -> Date? {
+            dateFormatter.date(from: s) ?? altDateFormatter.date(from: s)
+        }
+
+        var imported = 0
+
+        // 跳过表头，逐行导入
+        for line in lines.dropFirst() {
+            guard line.count >= 1, !line.allSatisfy({ $0.isEmpty }) else { continue }
+
+            let caseName = col(at: colMap["案件名称"] ?? colMap["case name"] ?? colMap["name"], in: line)
+
+            guard let name = caseName, !name.isEmpty else { continue }
+
+            // 去重：同名案件跳过
+            let allCases = (try? modelContext.fetch(FetchDescriptor<CaseRecord>())) ?? []
+            if allCases.contains(where: { $0.caseName == name }) {
+                continue
+            }
+
+            let caseTypeStr = col(at: colMap["案件类型"] ?? colMap["case type"] ?? colMap["type"], in: line)
+            let type = CaseType.allCases.first { $0.rawValue == caseTypeStr } ?? .civil
+
+            let caseNumber = col(at: colMap["案号"] ?? colMap["case number"] ?? colMap["no"], in: line)
+
+            let stageStr = col(at: colMap["案件阶段"] ?? colMap["stage"] ?? colMap["status"], in: line)
+            let stage = CaseStage.allCases.first { $0.rawValue == stageStr } ?? .consulting
+
+            let amountStr = col(at: colMap["标的额"] ?? colMap["amount"] ?? colMap["claim amount"], in: line)
+            let amount = amountStr.flatMap { Double($0.replacingOccurrences(of: ",", with: "").replacingOccurrences(of: "¥", with: "")) }
+
+            let filingDateStr = col(at: colMap["立案时间"] ?? colMap["filing date"] ?? colMap["date"], in: line)
+            let filingDate = filingDateStr.flatMap(parseDate)
+
+            let orgName = col(at: colMap["受理机构"] ?? colMap["organization"] ?? colMap["court"], in: line)
+
+            let notes = col(at: colMap["备注"] ?? colMap["notes"] ?? colMap["description"], in: line)
+
+            let caseRecord = CaseRecord(
+                caseName: name,
+                caseType: type,
+                courtCaseNumber: caseNumber,
+                claimAmount: amount,
+                caseStage: stage,
+                filingDate: filingDate,
+                notes: notes
+            )
+
+            // 查找或创建机构
+            if let orgName = orgName, !orgName.isEmpty {
+                let allOrgs = (try? modelContext.fetch(FetchDescriptor<Organization>())) ?? []
+                if let existingOrg = allOrgs.first(where: { $0.name == orgName }) {
+                    caseRecord.acceptedOrganization = existingOrg
+                } else {
+                    let org = Organization(name: orgName, type: .other)
+                    modelContext.insert(org)
+                    caseRecord.acceptedOrganization = org
+                }
+            }
+
+            modelContext.insert(caseRecord)
+            imported += 1
+        }
+
+        if imported > 0 { try modelContext.save() }
+        return imported
+    }
+
+    /// 解析 CSV 行（处理引号内的逗号）
+    private func parseCSVLines(_ content: String) -> [[String]] {
+        var result: [[String]] = []
+        for rawLine in content.components(separatedBy: .newlines) {
+            let line = rawLine.trimmingCharacters(in: .whitespaces)
+            guard !line.isEmpty else { continue }
+
+            var fields: [String] = []
+            var current = ""
+            var inQuotes = false
+
+            for char in line {
+                switch char {
+                case "\"":
+                    inQuotes.toggle()
+                case "," where !inQuotes:
+                    fields.append(current)
+                    current = ""
+                default:
+                    current.append(char)
+                }
+            }
+            fields.append(current)
+            result.append(fields)
+        }
+        return result
+    }
+
+    private func col(at index: Int?, in line: [String]) -> String? {
+        guard let i = index, i < line.count else { return nil }
+        let val = line[i].trimmingCharacters(in: .whitespaces)
+        return val.isEmpty ? nil : val
+    }
+
+    enum ImportError: Error, LocalizedError {
+        case emptyFile
+
+        var errorDescription: String? {
+            switch self {
+            case .emptyFile: return "CSV 文件为空或格式不正确"
+            }
+        }
+    }
 }
