@@ -86,12 +86,44 @@ struct AdaptiveContentView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
+        #if os(macOS)
+        macOSLayout
+        #else
         if horizontalSizeClass == .regular {
             iPadLayout
         } else {
             iPhoneLayout
         }
+        #endif
     }
+
+    #if os(macOS)
+    private var macOSLayout: some View {
+        HStack(spacing: 0) {
+            List {
+                Section("连接") {
+                    ForEach(AppTab.allCases, id: \.self) { tab in
+                        Button {
+                            activeTab = tab
+                        } label: {
+                            Label(tab.displayName, systemImage: tab.systemImage)
+                        }
+                        .buttonStyle(.plain)
+                        .foregroundStyle(activeTab == tab ? .blue : .primary)
+                    }
+                }
+            }
+            .frame(width: 180)
+            .listStyle(.sidebar)
+            .scrollContentBackground(.hidden)
+
+            Divider()
+
+            contentColumn
+                .frame(minWidth: 600)
+        }
+    }
+    #endif
 
     // MARK: - iPhone: TabView
 
