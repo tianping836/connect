@@ -51,6 +51,27 @@ struct AddParticipantSheet: View {
             .sheet(isPresented: $showNewContactSheet) {
                 ContactEditView()
             }
+            .dropDestination(for: String.self) { items, _ in
+                guard let uuidStr = items.first,
+                      let uuid = UUID(uuidString: uuidStr),
+                      let contact = allContacts.first(where: { $0.id == uuid }),
+                      !existingContactIDs.contains(contact.id)
+                else { return false }
+                withAnimation {
+                    selectedContact = contact
+                    // 预填角色
+                    if contact.roleTags.contains(.judge) || contact.roleTags.contains(.clerk) {
+                        selectedRole = .presidingJudge
+                    } else if contact.roleTags.contains(.prosecutor) {
+                        selectedRole = .prosecutorInCharge
+                    } else if contact.roleTags.contains(.party) {
+                        selectedRole = .client
+                    } else if contact.roleTags.contains(.lawyer) {
+                        selectedRole = .coCounsel
+                    }
+                }
+                return true
+            }
         }
     }
 

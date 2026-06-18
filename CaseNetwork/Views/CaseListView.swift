@@ -25,6 +25,7 @@ struct CaseListView: View {
                     Button { showAddCase = true } label: {
                         Image(systemName: "plus")
                     }
+                    .keyboardShortcut("n", modifiers: .command)
                 }
                 ToolbarItem(placement: .secondaryAction) {
                     Toggle("Active only", isOn: $viewModel.showOnlyActive)
@@ -32,6 +33,11 @@ struct CaseListView: View {
             }
             .sheet(isPresented: $showAddCase) {
                 CaseEditView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .newItemRequested)) { notif in
+                if let tab = notif.object as? AppTab, tab == .cases {
+                    showAddCase = true
+                }
             }
             .onAppear { viewModel.loadCases(cases) }
             .onChange(of: cases) { _, newValue in viewModel.loadCases(newValue) }

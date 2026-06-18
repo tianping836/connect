@@ -16,6 +16,7 @@ struct ContactListView: View {
 
     @State private var viewModel = ContactListViewModel()
     @State private var showAddContact = false
+    @FocusState private var searchFocused: Bool
 
     var body: some View {
         NavigationStack {
@@ -33,6 +34,11 @@ struct ContactListView: View {
             }
             .sheet(isPresented: $showAddContact) {
                 ContactEditView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .newItemRequested)) { notif in
+                if let tab = notif.object as? AppTab, tab == .contacts {
+                    showAddContact = true
+                }
             }
             .onAppear { viewModel.loadContacts(contacts) }
             .onChange(of: contacts) { _, newValue in viewModel.loadContacts(newValue) }
@@ -184,6 +190,7 @@ struct ContactListView: View {
             } label: {
                 Image(systemName: "plus")
             }
+            .keyboardShortcut("n", modifiers: .command)
         }
         ToolbarItem(placement: .secondaryAction) {
             Menu {

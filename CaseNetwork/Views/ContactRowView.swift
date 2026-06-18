@@ -73,6 +73,7 @@ struct ContactRowView: View {
             RelationshipStageIndicator(stage: contact.relationshipStage)
         }
         .padding(.vertical, 4)
+        .draggable(contact.id.uuidString)
     }
 }
 

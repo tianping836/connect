@@ -41,6 +41,7 @@ struct CalendarView: View {
                     Button { showAddEvent = true } label: {
                         Image(systemName: "plus")
                     }
+                    .keyboardShortcut("n", modifiers: .command)
                 }
                 ToolbarItem(placement: .secondaryAction) {
                     Picker("View", selection: $viewModel.viewMode) {
@@ -57,6 +58,11 @@ struct CalendarView: View {
             }
             .sheet(isPresented: $showAddEvent) {
                 KeyEventEditView()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .newItemRequested)) { notif in
+                if let tab = notif.object as? AppTab, tab == .calendar {
+                    showAddEvent = true
+                }
             }
             .onAppear { viewModel.loadEvents(allKeyEvents) }
             .onChange(of: allKeyEvents) { _, new in viewModel.loadEvents(new) }

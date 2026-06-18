@@ -5,8 +5,11 @@ import SwiftData
 struct CaseDetailView: View {
     let caseRecord: CaseRecord
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Contact.name) private var allContacts: [Contact]
     @State private var showEdit = false
     @State private var showAddParticipant = false
+    @State private var showDropToast = false
+    @State private var droppedContactName = ""
 
     var body: some View {
         List {
@@ -116,6 +119,27 @@ struct CaseDetailView: View {
             }
         }
         .listStyle(.inset)
+        .dropDestination(for: String.self) { items, _ in
+            guard let uuidStr = items.first,
+                  let uuid = UUID(uuidString: uuidStr),
+                  let contact = allContacts.first(where: { $0.id == uuid }),
+                  !(caseRecord.participants?.contains(where: { $0.contact?.id == uuid }) ?? false)
+            else { return false }
+            addParticipantFromDrop(contact)
+            return true
+        }
+        .overlay(alignment: .bottom) {
+            if showDropToast {
+                Text("\(droppedContactName) added to case")
+                    .font(.subheadline.weight(.medium))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(.ultraThinMaterial, in: .capsule)
+                    .padding(.bottom, 16)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            }
+        }
+        .animation(.spring(response: 0.3), value: showDropToast)
         .navigationTitle(caseRecord.caseName)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -243,6 +267,29 @@ struct CaseDetailView: View {
         case .evidenceSubmission:  "#455A64"
         case .ruling:              "#512DA8"
         case .other:               "#616161"
+        }
+    }
+
+    // MARK: - 拖放添加参与人
+
+    private func addParticipantFromDrop(_ contact: Contact) {
+        let participant = CaseParticipant(
+            caseRecord: caseRecord,
+            contact: contact,
+            role: .other,
+            roleDetail: nil,
+            notes: nil
+        )
+        modelContext.insert(participant)
+        caseRecord.participants?.append(participant)
+        try? modelContext.save()
+
+        droppedContactName = contact.name
+        withAnimation {
+            showDropToast = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation { showDropToast = false }
         }
     }
 

@@ -22,6 +22,14 @@ struct GlobalSearchView: View {
             .navigationTitle("Search")
             .searchable(text: $searchText, placement: .automatic, prompt: "Search names, cases, courts, tags...")
             .focused($isFocused)
+            .onReceive(NotificationCenter.default.publisher(for: .newItemRequested)) { notif in
+                if let tab = notif.object as? AppTab, tab == .search {
+                    isFocused = true
+                }
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .focusSearchRequested)) { _ in
+                isFocused = true
+            }
             .onAppear { isFocused = true }
         }
     }
