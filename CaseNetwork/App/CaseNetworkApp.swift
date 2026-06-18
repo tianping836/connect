@@ -68,11 +68,6 @@ struct CaseNetworkApp: App {
         .defaultSize(width: 1100, height: 700)
         #endif
         .modelContainer(container)
-        #if os(macOS)
-        .commands {
-            sidebarCommands
-        }
-        #endif
         // Phase 6: 场景阶段 → 自动加锁
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .background || newPhase == .inactive {
@@ -81,66 +76,6 @@ struct CaseNetworkApp: App {
         }
     }
 
-    // MARK: - 菜单栏 (macOS)
-
-    #if os(macOS)
-    @CommandsBuilder
-    private var sidebarCommands: some Commands {
-        // File 菜单
-        CommandGroup(after: .newItem) {
-            Menu("新建") {
-                Button("新建联系人") {
-                    NotificationCenter.default.post(name: .newItemRequested, object: AppTab.contacts)
-                }
-                .keyboardShortcut("n", modifiers: .command)
-
-                Button("新建案件") {
-                    NotificationCenter.default.post(name: .newItemRequested, object: AppTab.cases)
-                }
-                .keyboardShortcut("n", modifiers: [.command, .shift])
-
-                Button("新建事件") {
-                    NotificationCenter.default.post(name: .newItemRequested, object: AppTab.calendar)
-                }
-                .keyboardShortcut("n", modifiers: [.command, .option])
-            }
-        }
-
-        // View 菜单
-        CommandMenu("导航") {
-            Button("搜索") { activeTab = .search }
-                .keyboardShortcut("1", modifiers: .command)
-            Button("人脉") { activeTab = .contacts }
-                .keyboardShortcut("2", modifiers: .command)
-            Button("案件") { activeTab = .cases }
-                .keyboardShortcut("3", modifiers: .command)
-            Button("日历") { activeTab = .calendar }
-                .keyboardShortcut("4", modifiers: .command)
-            Button("设置") { activeTab = .settings }
-                .keyboardShortcut("5", modifiers: .command)
-
-            Divider()
-
-            Button("查找…") {
-                activeTab = .search
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    NotificationCenter.default.post(name: .focusSearchRequested, object: nil)
-                }
-            }
-            .keyboardShortcut("f", modifiers: .command)
-        }
-
-        // Window 菜单
-        CommandGroup(replacing: .windowSize) {
-            Button("默认窗口大小") {
-                NSApplication.shared.keyWindow?.setContentSize(NSSize(width: 1100, height: 700))
-            }
-            .keyboardShortcut("0", modifiers: [.command])
-
-            Divider()
-        }
-    }
-    #endif
 }
 
 // MARK: - 自适应布局
