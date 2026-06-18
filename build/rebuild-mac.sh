@@ -108,6 +108,7 @@ echo -e "${GREEN}✅ 已安装到 /Applications/连接.app${NC}"
 
 # 5. Launch
 echo -e "${YELLOW}🚀 启动应用...${NC}"
+xattr -cr /Applications/连接.app 2>/dev/null
 open /Applications/连接.app
 
 sleep 2
