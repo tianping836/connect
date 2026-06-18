@@ -4,6 +4,7 @@ import SwiftData
 /// CaseNetwork App 入口
 /// - iPhone (compact): TabView 底部导航
 /// - iPad (regular): NavigationSplitView 三栏布局 + 键盘快捷键
+/// - macOS: 菜单栏 + 窗口管理 + 右键菜单
 /// - Phase 6: 应用锁 + CloudKit 同步 + 数据导出
 @main
 struct CaseNetworkApp: App {
@@ -28,7 +29,9 @@ struct CaseNetworkApp: App {
     var body: some Scene {
         WindowGroup {
             AdaptiveContentView(activeTab: $activeTab)
+            #if os(macOS)
                 .frame(minWidth: 800, minHeight: 500)
+            #endif
                 // Phase 6: 应用锁遮罩
                 .overlay {
                     if BiometricAuthService.shared.isAppLocked {
@@ -38,11 +41,15 @@ struct CaseNetworkApp: App {
                 }
                 .animation(.easeInOut(duration: 0.25), value: BiometricAuthService.shared.isAppLocked)
         }
+        #if os(macOS)
         .defaultSize(width: 1100, height: 700)
+        #endif
         .modelContainer(container)
+        #if os(macOS)
         .commands {
             sidebarCommands
         }
+        #endif
         // Phase 6: 场景阶段 → 自动加锁
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .background || newPhase == .inactive {
@@ -53,6 +60,7 @@ struct CaseNetworkApp: App {
 
     // MARK: - 菜单栏 (macOS)
 
+    #if os(macOS)
     @CommandsBuilder
     private var sidebarCommands: some Commands {
         // File 菜单
@@ -91,7 +99,6 @@ struct CaseNetworkApp: App {
             Divider()
 
             Button("Find…") {
-                // Switch to search tab and focus
                 activeTab = .search
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     NotificationCenter.default.post(name: .focusSearchRequested, object: nil)
@@ -110,6 +117,7 @@ struct CaseNetworkApp: App {
             Divider()
         }
     }
+    #endif
 
     private func isFirstLaunch() -> Bool {
         let key = "has_launched_before"
@@ -123,7 +131,7 @@ struct CaseNetworkApp: App {
 
 // MARK: - 自适应布局
 
-/// iPhone: TabView | iPad: NavigationSplitView
+/// iPhone: TabView | iPad: NavigationSplitView | Mac: NavigationSplitView
 struct AdaptiveContentView: View {
     @Binding var activeTab: AppTab
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass

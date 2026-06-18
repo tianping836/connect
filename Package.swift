@@ -8,18 +8,23 @@ let package = Package(
         .macOS(.v14),
     ],
     products: [
-        .library(
+        /// 双平台 App —— iOS (iPhone + iPad) + macOS 原生
+        /// 通过 `xcodebuild -scheme CaseNetwork -destination 'platform=iOS' archive`
+        /// 或 `xcodebuild -scheme CaseNetwork -destination 'platform=macOS' archive` 归档
+        .executable(
             name: "CaseNetwork",
             targets: ["CaseNetwork"]
         ),
     ],
     dependencies: [],
     targets: [
-        .target(
+        .executableTarget(
             name: "CaseNetwork",
             path: "CaseNetwork",
-            exclude: ["App/CaseNetworkApp.swift"],  // iOS @main only works in Xcode project
-            resources: nil
+            // App/ 目录含 @main 入口，全部源文件参与编译
+            resources: [
+                .process("Resources"),
+            ]
         ),
         .testTarget(
             name: "CaseNetworkTests",
