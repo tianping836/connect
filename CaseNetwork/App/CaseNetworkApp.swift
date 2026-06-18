@@ -45,11 +45,7 @@ struct CaseNetworkApp: App {
                     .tabItem { Label("Cases", systemImage: "doc.text.fill") }
                     .tag(Tab.cases)
 
-                ContentUnavailableView(
-                    "Calendar",
-                    systemImage: "calendar",
-                    description: Text("Coming in Phase 3")
-                )
+                CalendarView()
                 .tabItem { Label("Calendar", systemImage: "calendar") }
                 .tag(Tab.calendar)
             }
