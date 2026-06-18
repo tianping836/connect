@@ -1,0 +1,168 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/KeyEventEditView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "编辑",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "新建事件",
+        "location": {
+          "startingColumn": 53,
+          "startingLine": 71
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除此事件？",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 87
+        }
+      },
+      {
+        "comment": "",
+        "key": "事件",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "案件 & 日期",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 48
+        }
+      },
+      {
+        "comment": "",
+        "key": "详情",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "提醒",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "类型",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 34
+        }
+      },
+      {
+        "comment": "",
+        "key": "标题 *",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "关联案件",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "日期",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 54
+        }
+      },
+      {
+        "comment": "",
+        "key": "无",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "详情",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "启用提醒",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 63
+        }
+      },
+      {
+        "comment": "",
+        "key": "取消",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 74
+        }
+      },
+      {
+        "comment": "",
+        "key": "保存",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 84
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 88
+        }
+      },
+      {
+        "comment": "",
+        "key": "取消",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 89
+        }
+      },
+      {
+        "comment": "",
+        "key": "事件「%@」及其提醒将被删除。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 91
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld天",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 110
+        }
+      }
+    ]
+  },
+  "version": 1
+}

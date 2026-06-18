@@ -1,0 +1,232 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/SettingsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "设置",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 46
+        }
+      },
+      {
+        "comment": "",
+        "key": "清除全部数据",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "取消",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 210
+        }
+      },
+      {
+        "comment": "",
+        "key": "导出并清除",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 211
+        }
+      },
+      {
+        "comment": "",
+        "key": "直接清除",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 225
+        }
+      },
+      {
+        "comment": "",
+        "key": "此操作不可撤销。所有联系人、案件、机构、事件将被永久删除。\n建议先导出备份。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "应用锁",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 83
+        }
+      },
+      {
+        "comment": "",
+        "key": "锁定时机",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 89
+        }
+      },
+      {
+        "comment": "",
+        "key": "当前设备不支持生物识别，将使用设备密码验证",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 103
+        }
+      },
+      {
+        "comment": "",
+        "key": "安全",
+        "location": {
+          "startingColumn": 19,
+          "startingLine": 109
+        }
+      },
+      {
+        "comment": "",
+        "key": "App 进入后台时自动锁定，需要 %@ 或设备密码解锁。",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 112
+        }
+      },
+      {
+        "comment": "",
+        "key": "iCloud 同步",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 122
+        }
+      },
+      {
+        "comment": "",
+        "key": "数据将自动同步到 iCloud",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 141
+        }
+      },
+      {
+        "comment": "",
+        "key": "数据仅存储在本机",
+        "location": {
+          "startingColumn": 77,
+          "startingLine": 141
+        }
+      },
+      {
+        "comment": "",
+        "key": "同步",
+        "location": {
+          "startingColumn": 19,
+          "startingLine": 146
+        }
+      },
+      {
+        "comment": "",
+        "key": "启用后，数据将在登录同一 iCloud 账户的设备间自动同步（需在 Xcode 项目中配置 iCloud / CloudKit 能力）。",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 148
+        }
+      },
+      {
+        "comment": "",
+        "key": "导出全部数据 (JSON)",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "联系人 (.csv)",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 166
+        }
+      },
+      {
+        "comment": "",
+        "key": "案件 (.csv)",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "机构 (.csv)",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "大事记 (.csv)",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 169
+        }
+      },
+      {
+        "comment": "",
+        "key": "导出为 CSV...",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 171
+        }
+      },
+      {
+        "comment": "",
+        "key": "从 JSON 导入...",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 179
+        }
+      },
+      {
+        "comment": "",
+        "key": "从 CSV 导入案件...",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "清除全部数据",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 196
+        }
+      },
+      {
+        "comment": "",
+        "key": "数据管理",
+        "location": {
+          "startingColumn": 19,
+          "startingLine": 200
+        }
+      },
+      {
+        "comment": "",
+        "key": "导出为 JSON 格式，含全部关联关系，可用于备份或迁移。CSV 格式适合 Excel 查看。",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 202
+        }
+      },
+      {
+        "comment": "",
+        "key": "查看",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 328
+        }
+      }
+    ]
+  },
+  "version": 1
+}

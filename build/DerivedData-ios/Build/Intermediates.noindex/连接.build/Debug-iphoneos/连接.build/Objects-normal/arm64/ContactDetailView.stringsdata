@@ -1,0 +1,192 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/ContactDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "基本信息",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 18
+        }
+      },
+      {
+        "comment": "",
+        "key": "人脉圈",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 116
+        }
+      },
+      {
+        "comment": "",
+        "key": "关联案件 (%lld)",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 130
+        }
+      },
+      {
+        "comment": "",
+        "key": "互动记录",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 186
+        }
+      },
+      {
+        "comment": "",
+        "key": "电话",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 53
+        }
+      },
+      {
+        "comment": "",
+        "key": "微信",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 56
+        }
+      },
+      {
+        "comment": "",
+        "key": "邮箱",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "机构",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 64
+        }
+      },
+      {
+        "comment": "",
+        "key": "机构内角色",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 72
+        }
+      },
+      {
+        "comment": "",
+        "key": "关系",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 79
+        }
+      },
+      {
+        "comment": "",
+        "key": "技能",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 94
+        }
+      },
+      {
+        "comment": "",
+        "key": "偏好/兴趣",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 101
+        }
+      },
+      {
+        "comment": "",
+        "key": "生日",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "备注",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 109
+        }
+      },
+      {
+        "comment": "",
+        "key": "· %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 67
+        }
+      },
+      {
+        "comment": "",
+        "key": "介绍人",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "查看全部 %lld 条互动",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 164
+        }
+      },
+      {
+        "comment": "",
+        "key": "互动时间线 (%lld)",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 174
+        }
+      },
+      {
+        "comment": "",
+        "key": "还没有互动记录",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 191
+        }
+      },
+      {
+        "comment": "",
+        "key": "记录第一条互动",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 197
+        }
+      },
+      {
+        "comment": "",
+        "key": "编辑",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 210
+        }
+      },
+      {
+        "comment": "",
+        "key": "Follow-up: %@",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 256
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 269
+        }
+      }
+    ]
+  },
+  "version": 1
+}

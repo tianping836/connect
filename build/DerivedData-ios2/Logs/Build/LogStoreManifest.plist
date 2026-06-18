@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>12</integer>
+	<key>logs</key>
+	<dict>
+		<key>C98319EE-DE83-4892-9745-ADF414951870</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>C98319EE-DE83-4892-9745-ADF414951870.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>连接 project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>连接</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Cleaning project 连接 with scheme 连接 and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>803479621.74644601</real>
+			<key>timeStoppedRecording</key>
+			<real>803479622.09429896</real>
+			<key>title</key>
+			<string>Cleaning project 连接 with scheme 连接 and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>C98319EE-DE83-4892-9745-ADF414951870</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,30 @@
+{
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/App/CaseNetworkApp.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseNetworkApp.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseNetworkApp.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseNetworkApp.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseNetworkApp.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseNetworkApp.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Models/AllModels.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AllModels.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AllModels.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AllModels.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AllModels.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AllModels.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Models/PinyinSearch.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/PinyinSearch.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/PinyinSearch.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/PinyinSearch.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/PinyinSearch.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/PinyinSearch.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/CaseEditView.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseEditView.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseEditView.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseEditView.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseEditView.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CaseEditView.swiftdeps"
+  }
+}

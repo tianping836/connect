@@ -1,0 +1,80 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/App/CaseNetworkApp.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "搜索",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 181
+        }
+      },
+      {
+        "comment": "",
+        "key": "人脉",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 185
+        }
+      },
+      {
+        "comment": "",
+        "key": "案件",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 189
+        }
+      },
+      {
+        "comment": "",
+        "key": "日历",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 193
+        }
+      },
+      {
+        "comment": "",
+        "key": "设置",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 197
+        }
+      },
+      {
+        "comment": "",
+        "key": "连接",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 230
+        }
+      },
+      {
+        "comment": "",
+        "key": "从列表中选择一个人脉、案件或事件。",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 285
+        }
+      },
+      {
+        "comment": "",
+        "key": "选择一项",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 283
+        }
+      },
+      {
+        "comment": "",
+        "key": "连接",
+        "location": {
+          "startingColumn": 17,
+          "startingLine": 238
+        }
+      }
+    ]
+  },
+  "version": 1
+}

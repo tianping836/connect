@@ -1,0 +1,30 @@
+{
+  "/Users/zhouyijun/.myagents/projects/casenetwork/CaseNetwork/Views/KeyEventEditView.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/KeyEventEditView.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/KeyEventEditView.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/KeyEventEditView.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/KeyEventEditView.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/KeyEventEditView.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/CaseNetwork/Views/OnboardingView.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/OnboardingView.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/OnboardingView.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/OnboardingView.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/OnboardingView.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/OnboardingView.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/CaseNetwork/Views/SettingsView.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/SettingsView.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/SettingsView.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ws/Build/Intermediates.noindex/CaseNetwork.build/Debug-iphoneos/CaseNetwork.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  }
+}

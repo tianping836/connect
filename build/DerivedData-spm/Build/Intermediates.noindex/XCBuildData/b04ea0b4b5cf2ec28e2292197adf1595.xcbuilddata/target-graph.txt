@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'CaseNetwork' in project 'CaseNetwork'
+➜ Explicit dependency on target 'CaseNetwork_CaseNetwork' in project 'CaseNetwork'
+Target 'CaseNetwork_CaseNetwork' in project 'CaseNetwork' (no dependencies)

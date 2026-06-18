@@ -1,0 +1,88 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/CaseListView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "案件",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 21
+        }
+      },
+      {
+        "comment": "",
+        "key": "搜索案件、案号、法院……",
+        "location": {
+          "startingColumn": 62,
+          "startingLine": 22
+        }
+      },
+      {
+        "comment": "",
+        "key": "只看进行中",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld 个结果",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 58
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 76
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 98
+        }
+      },
+      {
+        "comment": "",
+        "key": "结案",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 124
+        }
+      },
+      {
+        "comment": "",
+        "key": "还没有案件",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 146
+        }
+      },
+      {
+        "comment": "",
+        "key": "添加你的第一个案件——刑事、民事、行政……",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 148
+        }
+      },
+      {
+        "comment": "",
+        "key": "添加第一个案件",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 155
+        }
+      }
+    ]
+  },
+  "version": 1
+}

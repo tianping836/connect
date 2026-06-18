@@ -1,0 +1,144 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/ImportContactsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "从通讯录导入",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 37
+        }
+      },
+      {
+        "comment": "",
+        "key": "正在加载通讯录…",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 27
+        }
+      },
+      {
+        "comment": "",
+        "key": "取消",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 40
+        }
+      },
+      {
+        "comment": "",
+        "key": "访问你的通讯录",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "连接需要读取通讯录以导入联系人。你的数据仅存储在本地。",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 68
+        }
+      },
+      {
+        "comment": "",
+        "key": "允许访问",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "通讯录访问被拒绝",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 102
+        }
+      },
+      {
+        "comment": "",
+        "key": "请前往 设置 → 隐私 → 通讯录 开启访问权限。",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 105
+        }
+      },
+      {
+        "comment": "",
+        "key": "打开设置",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 112
+        }
+      },
+      {
+        "comment": "",
+        "key": "已选 %lld 人",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 141
+        }
+      },
+      {
+        "comment": "",
+        "key": "取消全选",
+        "location": {
+          "startingColumn": 65,
+          "startingLine": 130
+        }
+      },
+      {
+        "comment": "",
+        "key": "全选",
+        "location": {
+          "startingColumn": 82,
+          "startingLine": 130
+        }
+      },
+      {
+        "comment": "",
+        "key": "导入 %lld 人",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "已导入 %lld 人",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 224
+        }
+      },
+      {
+        "comment": "",
+        "key": "联系人已添加到人脉列表中。",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 227
+        }
+      },
+      {
+        "comment": "",
+        "key": "未导入新联系人（可能已存在）。",
+        "location": {
+          "startingColumn": 82,
+          "startingLine": 227
+        }
+      },
+      {
+        "comment": "",
+        "key": "完成",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 233
+        }
+      }
+    ]
+  },
+  "version": 1
+}

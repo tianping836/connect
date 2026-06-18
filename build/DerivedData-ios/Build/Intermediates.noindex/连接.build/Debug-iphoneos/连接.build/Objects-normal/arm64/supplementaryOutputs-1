@@ -1,0 +1,37 @@
+{
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Models/AppTypes.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AppTypes.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AppTypes.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AppTypes.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AppTypes.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/AppTypes.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Services/SearchHistory.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/SearchHistory.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/SearchHistory.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/SearchHistory.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/SearchHistory.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/SearchHistory.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/CalendarView.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CalendarView.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CalendarView.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CalendarView.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CalendarView.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/CalendarView.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/DayEventsSheet.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/DayEventsSheet.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/DayEventsSheet.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/DayEventsSheet.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/DayEventsSheet.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/DayEventsSheet.swiftdeps"
+  },
+  "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/OnboardingView.swift" : {
+    "const-values" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/OnboardingView.swiftconstvalues",
+    "dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/OnboardingView.d",
+    "diagnostics" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/OnboardingView.dia",
+    "object" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/OnboardingView.o",
+    "swift-dependencies" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-ios/Build/Intermediates.noindex/连接.build/Debug-iphoneos/连接.build/Objects-normal/arm64/OnboardingView.swiftdeps"
+  }
+}

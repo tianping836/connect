@@ -1,0 +1,128 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/AddParticipantSheet.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "添加参与人",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 38
+        }
+      },
+      {
+        "comment": "",
+        "key": "搜索姓名、电话、机构……",
+        "location": {
+          "startingColumn": 52,
+          "startingLine": 44
+        }
+      },
+      {
+        "comment": "",
+        "key": "取消",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "常用",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 82
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld 个结果",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 102
+        }
+      },
+      {
+        "comment": "",
+        "key": "新建联系人: \"%@\"",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 114
+        }
+      },
+      {
+        "comment": "",
+        "key": "在本案中的角色",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 188
+        }
+      },
+      {
+        "comment": "",
+        "key": "备注",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 205
+        }
+      },
+      {
+        "comment": "",
+        "key": "更换",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 182
+        }
+      },
+      {
+        "comment": "",
+        "key": "如: 审判长",
+        "location": {
+          "startingColumn": 87,
+          "startingLine": 201
+        }
+      },
+      {
+        "comment": "",
+        "key": "角色",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 189
+        }
+      },
+      {
+        "comment": "",
+        "key": "具体职务（选填）",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 201
+        }
+      },
+      {
+        "comment": "",
+        "key": "· %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 193
+        }
+      },
+      {
+        "comment": "",
+        "key": "参与备注",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 206
+        }
+      },
+      {
+        "comment": "",
+        "key": "确认添加",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 215
+        }
+      }
+    ]
+  },
+  "version": 1
+}

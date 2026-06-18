@@ -1,0 +1,232 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/CaseDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "案件信息",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "大事记",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "关联案件",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 191
+        }
+      },
+      {
+        "comment": "",
+        "key": "案号",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "委托号",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 39
+        }
+      },
+      {
+        "comment": "",
+        "key": "类型",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "标的额",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 45
+        }
+      },
+      {
+        "comment": "",
+        "key": "诉请",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "结果",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 55
+        }
+      },
+      {
+        "comment": "",
+        "key": "机构",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "备注",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 66
+        }
+      },
+      {
+        "comment": "",
+        "key": "立案: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 26
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ · %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 62
+        }
+      },
+      {
+        "comment": "",
+        "key": "添加参与人",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "参与人",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 85
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 87
+        }
+      },
+      {
+        "comment": "",
+        "key": "从访达拖放文件到此处",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 99
+        }
+      },
+      {
+        "comment": "",
+        "key": "打开",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 131
+        }
+      },
+      {
+        "comment": "",
+        "key": "移除",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 144
+        }
+      },
+      {
+        "comment": "",
+        "key": "文书附件",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 151
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 153
+        }
+      },
+      {
+        "comment": "",
+        "key": "编辑",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 168
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 174
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 181
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ 已添加到案件",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 219
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ 已添加",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 226
+        }
+      },
+      {
+        "comment": "",
+        "key": "编辑",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 241
+        }
+      },
+      {
+        "comment": "",
+        "key": "提前 %@ 天提醒",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 342
+        }
+      }
+    ]
+  },
+  "version": 1
+}

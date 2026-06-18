@@ -1,0 +1,56 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/CaseRowView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%@, %@, %lld 人参与",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 78
+        }
+      },
+      {
+        "comment": "",
+        "key": "·",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 39
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "编辑",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 83
+        }
+      },
+      {
+        "comment": "",
+        "key": "新建案件",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 89
+        }
+      },
+      {
+        "comment": "",
+        "key": "删除",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 97
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>12</integer>
+	<key>logs</key>
+	<dict>
+		<key>0174A494-9E8D-4DB7-BB43-B0D30C3B511A</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>0174A494-9E8D-4DB7-BB43-B0D30C3B511A.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>37</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>casenetwork</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>CaseNetwork</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building workspace casenetwork with scheme CaseNetwork and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>803479673.58542895</real>
+			<key>timeStoppedRecording</key>
+			<real>803479689.52184999</real>
+			<key>title</key>
+			<string>Building workspace casenetwork with scheme CaseNetwork and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>0174A494-9E8D-4DB7-BB43-B0D30C3B511A</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

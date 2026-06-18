@@ -1,0 +1,73 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "PACKAGE-PRODUCT:CaseNetwork"
+    }
+  ],
+  "containerPath" : "/Users/zhouyijun/.myagents/projects/casenetwork",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "undefined_arch",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "hostTargetedPlatform" : null,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos26.5",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "armv4t",
+        "armv5",
+        "armv6",
+        "armv7",
+        "armv7f",
+        "armv7s",
+        "armv7k",
+        "arm64",
+        "arm64e"
+      ],
+      "targetArchitecture" : "undefined_arch"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm/Build/Products",
+      "derivedDataPath" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm",
+      "indexDataStoreFolderPath" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "DEVELOPMENT_TEAM" : "A6M9K8K4QW"
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "CLANG_COVERAGE_MAPPING" : "YES",
+          "CLANG_PROFILE_DATA_DIRECTORY" : "/Users/zhouyijun/.myagents/projects/casenetwork/build/DerivedData-spm/Build/ProfileData",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

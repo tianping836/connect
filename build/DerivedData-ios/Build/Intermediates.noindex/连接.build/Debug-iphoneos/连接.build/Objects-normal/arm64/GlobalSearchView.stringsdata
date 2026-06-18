@@ -1,0 +1,96 @@
+{
+  "source": "/Users/zhouyijun/.myagents/projects/casenetwork/连接/Views/GlobalSearchView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "搜索",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 23
+        }
+      },
+      {
+        "comment": "",
+        "key": "搜索姓名、案件、法院、标签……",
+        "location": {
+          "startingColumn": 75,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "人脉 (%lld)",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 69
+        }
+      },
+      {
+        "comment": "",
+        "key": "案件 (%lld)",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 81
+        }
+      },
+      {
+        "comment": "",
+        "key": "重要人脉",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 147
+        }
+      },
+      {
+        "comment": "",
+        "key": "进行中的案件",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 164
+        }
+      },
+      {
+        "comment": "",
+        "key": "快捷操作",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 176
+        }
+      },
+      {
+        "comment": "",
+        "key": "最近搜索",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 129
+        }
+      },
+      {
+        "comment": "",
+        "key": "清除",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 131
+        }
+      },
+      {
+        "comment": "",
+        "key": "全部人脉 (%lld)",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 180
+        }
+      },
+      {
+        "comment": "",
+        "key": "全部案件 (%lld)",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 185
+        }
+      }
+    ]
+  },
+  "version": 1
+}
