@@ -10,6 +10,7 @@ struct CalendarView: View {
     @State private var viewModel = CalendarViewModel()
     @State private var showDaySheet = false
     @State private var showAddEvent = false
+    @State private var isSyncingCalendar = false
 
     var body: some View {
         NavigationStack {
@@ -38,10 +39,23 @@ struct CalendarView: View {
             .navigationTitle("日历")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button { showAddEvent = true } label: {
-                        Image(systemName: "plus")
+                    HStack(spacing: 12) {
+                        Button {
+                            syncAppleCalendar()
+                        } label: {
+                            if isSyncingCalendar {
+                                ProgressView().scaleEffect(0.7)
+                            } else {
+                                Image(systemName: "arrow.triangle.2.circlepath")
+                            }
+                        }
+                        .disabled(isSyncingCalendar)
+
+                        Button { showAddEvent = true } label: {
+                            Image(systemName: "plus")
+                        }
+                        .keyboardShortcut("n", modifiers: .command)
                     }
-                    .keyboardShortcut("n", modifiers: .command)
                 }
                 ToolbarItem(placement: .secondaryAction) {
                     Picker("视图", selection: $viewModel.viewMode) {
@@ -64,8 +78,41 @@ struct CalendarView: View {
                     showAddEvent = true
                 }
             }
-            .onAppear { viewModel.loadEvents(allKeyEvents) }
+            .onAppear {
+                viewModel.loadEvents(allKeyEvents)
+                autoSyncCalendar()
+            }
             .onChange(of: allKeyEvents) { _, new in viewModel.loadEvents(new) }
+        }
+    }
+
+    // MARK: 日历同步
+
+    private func autoSyncCalendar() {
+        let last = UserDefaults.standard.double(forKey: "last_calendar_sync")
+        guard Date().timeIntervalSince1970 - last > 86400 else { return }
+        syncAppleCalendar()
+    }
+
+    private func syncAppleCalendar() {
+        isSyncingCalendar = true
+        Task {
+            let ok = await CalendarSyncService.shared.requestAccess()
+            guard ok else { isSyncingCalendar = false; return }
+            do {
+                let now = Date()
+                let cal = Calendar.current
+                let s = cal.date(byAdding: .month, value: -1, to: now)!
+                let e = cal.date(byAdding: .month, value: 2, to: now)!
+                let n = try await CalendarSyncService.shared.importEvents(from: s, to: e, modelContext: modelContext)
+                UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "last_calendar_sync")
+                await MainActor.run {
+                    viewModel.loadEvents(allKeyEvents)
+                    isSyncingCalendar = false
+                }
+            } catch {
+                await MainActor.run { isSyncingCalendar = false }
+            }
         }
     }
 
