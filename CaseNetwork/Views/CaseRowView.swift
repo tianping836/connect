@@ -4,6 +4,7 @@ import SwiftData
 /// 案件列表行——案由 / 案号 / 机构 / 阶段 / 参与人数 / 下一步关键日期
 struct CaseRowView: View {
     let caseRecord: CaseRecord
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         HStack(spacing: 12) {
@@ -73,6 +74,38 @@ struct CaseRowView: View {
             CaseStageBadge(stage: caseRecord.caseStage)
         }
         .padding(.vertical, 4)
+        .contextMenu {
+            Button {
+                NotificationCenter.default.post(name: .editCaseRequested, object: caseRecord)
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+
+            Button {
+                NotificationCenter.default.post(name: .newItemRequested, object: AppTab.cases)
+            } label: {
+                Label("New Case", systemImage: "doc.badge.plus")
+            }
+
+            Divider()
+
+            Button(role: .destructive) {
+                deleteCase()
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+    }
+
+    private func deleteCase() {
+        caseRecord.keyEvents?.forEach {
+            NotificationService.shared.cancelAll(for: $0)
+            modelContext.delete($0)
+        }
+        caseRecord.participants?.forEach { modelContext.delete($0) }
+        caseRecord.acceptedOrganization?.acceptedCases?.removeAll { $0.id == caseRecord.id }
+        modelContext.delete(caseRecord)
+        try? modelContext.save()
     }
 
     private var caseTypeIcon: String {

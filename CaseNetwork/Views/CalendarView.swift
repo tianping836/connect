@@ -275,6 +275,21 @@ struct CalendarView: View {
                 .foregroundStyle(Color(hex: hex))
                 .clipShape(.capsule)
         }
+        .contextMenu {
+            Button {
+                NotificationCenter.default.post(name: .editKeyEventRequested, object: event)
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+
+            Divider()
+
+            Button(role: .destructive) {
+                deleteEvent(event)
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
         .swipeActions(edge: .trailing) {
             Button(role: .destructive) {
                 deleteEvent(event)

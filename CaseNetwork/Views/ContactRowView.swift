@@ -4,6 +4,7 @@ import SwiftData
 /// 联系人列表行——单行展示：头像首字母 / 姓名 / 角色标签 / 机构 / 关联案件数
 struct ContactRowView: View {
     let contact: Contact
+    @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         HStack(spacing: 12) {
@@ -74,6 +75,37 @@ struct ContactRowView: View {
         }
         .padding(.vertical, 4)
         .draggable(contact.id.uuidString)
+        .contextMenu {
+            Button {
+                NotificationCenter.default.post(name: .editContactRequested, object: contact)
+            } label: {
+                Label("Edit", systemImage: "pencil")
+            }
+
+            Button {
+                NotificationCenter.default.post(name: .addContactToCaseRequested, object: contact)
+            } label: {
+                Label("Add to Case...", systemImage: "doc.badge.plus")
+            }
+
+            Divider()
+
+            Button(role: .destructive) {
+                deleteContact()
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+    }
+
+    private func deleteContact() {
+        // 清除关联通知（如果有的话）
+        contact.caseParticipations?.forEach { modelContext.delete($0) }
+        contact.interactions?.forEach { modelContext.delete($0) }
+        contact.organization?.contacts?.removeAll { $0.id == contact.id }
+        contact.referrals?.forEach { $0.referrer = nil }
+        modelContext.delete(contact)
+        try? modelContext.save()
     }
 }
 

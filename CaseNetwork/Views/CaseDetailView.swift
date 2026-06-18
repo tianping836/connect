@@ -10,6 +10,8 @@ struct CaseDetailView: View {
     @State private var showAddParticipant = false
     @State private var showDropToast = false
     @State private var droppedContactName = ""
+    @State private var showFileDropToast = false
+    @State private var droppedFileName = ""
 
     var body: some View {
         List {
@@ -87,12 +89,89 @@ struct CaseDetailView: View {
                 }
             }
 
+            // MARK: - 文书附件
+
+            Section {
+                if caseRecord.documentPaths.isEmpty {
+                    HStack {
+                        Image(systemName: "tray")
+                            .foregroundStyle(.secondary)
+                        Text("Drag files from Finder here")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                } else {
+                    ForEach(Array(caseRecord.documentPaths.enumerated()), id: \.offset) { idx, path in
+                        let url = URL(fileURLWithPath: path)
+                        HStack {
+                            Image(systemName: fileIcon(for: url.pathExtension))
+                                .foregroundStyle(.blue)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(url.lastPathComponent)
+                                    .font(.subheadline)
+                                Text(url.pathExtension.uppercased())
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Button {
+                                NSWorkspace.shared.open(url)
+                            } label: {
+                                Image(systemName: "arrow.up.forward.app")
+                                    .font(.caption)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .contextMenu {
+                            Button {
+                                NSWorkspace.shared.open(url)
+                            } label: {
+                                Label("Open", systemImage: "arrow.up.forward.app")
+                            }
+                            Button {
+                                NSWorkspace.shared.activateFileViewerSelecting([url])
+                            } label: {
+                                Label("Show in Finder", systemImage: "folder")
+                            }
+                            Divider()
+                            Button(role: .destructive) {
+                                removeDocument(at: idx)
+                            } label: {
+                                Label("Remove", systemImage: "trash")
+                            }
+                        }
+                    }
+                }
+            } header: {
+                HStack {
+                    Text("Documents")
+                    Spacer()
+                    Text("\(caseRecord.documentPaths.count)")
+                        .foregroundStyle(.secondary)
+                }
+            }
+
             // MARK: - 大事记时间轴
 
             if let events = caseRecord.keyEvents, !events.isEmpty {
                 Section("Timeline") {
                     ForEach(events.sorted(by: { $0.date > $1.date })) { event in
                         timelineRow(event)
+                            .contextMenu {
+                                Button {
+                                    NotificationCenter.default.post(name: .editKeyEventRequested, object: event)
+                                } label: {
+                                    Label("Edit", systemImage: "pencil")
+                                }
+                                Divider()
+                                Button(role: .destructive) {
+                                    deleteTimelineEvent(event)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                             .swipeActions(edge: .trailing) {
                                 Button(role: .destructive) {
                                     deleteTimelineEvent(event)
@@ -128,15 +207,29 @@ struct CaseDetailView: View {
             addParticipantFromDrop(contact)
             return true
         }
+        .dropDestination(for: URL.self) { urls, _ in
+            handleFileDrop(urls)
+        }
         .overlay(alignment: .bottom) {
-            if showDropToast {
-                Text("\(droppedContactName) added to case")
-                    .font(.subheadline.weight(.medium))
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
-                    .background(.ultraThinMaterial, in: .capsule)
-                    .padding(.bottom, 16)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+            if showDropToast || showFileDropToast {
+                VStack(spacing: 8) {
+                    if showDropToast {
+                        Text("\(droppedContactName) added to case")
+                            .font(.subheadline.weight(.medium))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(.ultraThinMaterial, in: .capsule)
+                    }
+                    if showFileDropToast {
+                        Text("\(droppedFileName) attached")
+                            .font(.subheadline.weight(.medium))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(.ultraThinMaterial, in: .capsule)
+                    }
+                }
+                .padding(.bottom, 16)
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
         }
         .animation(.spring(response: 0.3), value: showDropToast)
@@ -290,6 +383,78 @@ struct CaseDetailView: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             withAnimation { showDropToast = false }
+        }
+    }
+
+    // MARK: - 文件拖放
+
+    private func handleFileDrop(_ urls: [URL]) -> Bool {
+        let fm = FileManager.default
+        // 在 app 的 Documents 下创建案件专属目录
+        let docsDir = fm.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let caseDir = docsDir.appendingPathComponent("CaseDocuments/\(caseRecord.id.uuidString)")
+        try? fm.createDirectory(at: caseDir, withIntermediateDirectories: true)
+
+        var added = false
+        for srcURL in urls {
+            let destURL = caseDir.appendingPathComponent(srcURL.lastPathComponent)
+            // 避免覆盖：同名文件加序号
+            let finalURL = uniqueURL(for: destURL)
+            do {
+                try fm.copyItem(at: srcURL, to: finalURL)
+                var paths = caseRecord.documentPaths
+                paths.append(finalURL.path)
+                caseRecord.documentPaths = paths
+                try? modelContext.save()
+                droppedFileName = finalURL.lastPathComponent
+                added = true
+            } catch {
+                print("[CaseDetail] Failed to copy file: \(error)")
+            }
+        }
+
+        if added {
+            withAnimation { showFileDropToast = true }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                withAnimation { showFileDropToast = false }
+            }
+        }
+        return added
+    }
+
+    private func uniqueURL(for url: URL) -> URL {
+        let fm = FileManager.default
+        let base = url.deletingPathExtension().lastPathComponent
+        let ext = url.pathExtension
+        let dir = url.deletingLastPathComponent()
+        var candidate = url
+        var counter = 1
+        while fm.fileExists(atPath: candidate.path) {
+            candidate = dir.appendingPathComponent("\(base)_\(counter).\(ext)")
+            counter += 1
+        }
+        return candidate
+    }
+
+    private func removeDocument(at index: Int) {
+        var paths = caseRecord.documentPaths
+        guard index < paths.count else { return }
+        let path = paths.remove(at: index)
+        try? FileManager.default.removeItem(atPath: path)
+        caseRecord.documentPaths = paths
+        try? modelContext.save()
+    }
+
+    private func fileIcon(for ext: String) -> String {
+        switch ext.lowercased() {
+        case "pdf": "doc.richtext"
+        case "doc", "docx": "doc.text"
+        case "xls", "xlsx": "tablecells"
+        case "jpg", "jpeg", "png", "gif", "heic": "photo"
+        case "mp4", "mov": "film"
+        case "mp3", "wav", "m4a": "waveform"
+        case "zip", "rar", "7z": "archivebox"
+        default: "doc"
         }
     }
 

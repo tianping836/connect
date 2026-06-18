@@ -273,6 +273,12 @@ final class CaseRecord {
     @Relationship(deleteRule: .cascade, inverse: \KeyEvent.caseRecord)
     var keyEvents: [KeyEvent]?
 
+    var documentPathsJSON: String
+    @Transient var documentPaths: [String] {
+        get { JSONArrayTransformer.decodeStringArray(documentPathsJSON) }
+        set { documentPathsJSON = JSONArrayTransformer.encodeStringArray(newValue) }
+    }
+
     var notes: String?
     var createdAt: Date
     var updatedAt: Date
@@ -284,6 +290,7 @@ final class CaseRecord {
          filingDate: Date? = nil, closingDate: Date? = nil,
          acceptedOrganization: Organization? = nil, responsibleLawyer: Contact? = nil,
          participants: [CaseParticipant]? = nil, keyEvents: [KeyEvent]? = nil,
+         documentPaths: [String] = [],
          notes: String? = nil, createdAt: Date = Date(), updatedAt: Date = Date()) {
         self.id = id; self.caseName = caseName; self.caseTypeRaw = caseType.rawValue
         self.courtCaseNumber = courtCaseNumber; self.internalCaseNumber = internalCaseNumber
@@ -293,6 +300,7 @@ final class CaseRecord {
         self.acceptedOrganization = acceptedOrganization
         self.responsibleLawyer = responsibleLawyer
         self.participants = participants; self.keyEvents = keyEvents
+        self.documentPathsJSON = JSONArrayTransformer.encodeStringArray(documentPaths)
         self.notes = notes; self.createdAt = createdAt; self.updatedAt = updatedAt
     }
 }

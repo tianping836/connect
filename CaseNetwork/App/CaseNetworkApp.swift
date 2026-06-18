@@ -24,17 +24,40 @@ struct CaseNetworkApp: App {
     var body: some Scene {
         WindowGroup {
             AdaptiveContentView(activeTab: $activeTab)
+                .frame(minWidth: 800, minHeight: 500)
         }
+        .defaultSize(width: 1100, height: 700)
         .modelContainer(container)
         .commands {
             sidebarCommands
         }
     }
 
-    // MARK: - 键盘快捷键 (iPad / Mac)
+    // MARK: - 菜单栏 (macOS)
 
     @CommandsBuilder
     private var sidebarCommands: some Commands {
+        // File 菜单
+        CommandGroup(after: .newItem) {
+            Menu("New") {
+                Button("New Contact") {
+                    NotificationCenter.default.post(name: .newItemRequested, object: AppTab.contacts)
+                }
+                .keyboardShortcut("n", modifiers: .command)
+
+                Button("New Case") {
+                    NotificationCenter.default.post(name: .newItemRequested, object: AppTab.cases)
+                }
+                .keyboardShortcut("n", modifiers: [.command, .shift])
+
+                Button("New Event") {
+                    NotificationCenter.default.post(name: .newItemRequested, object: AppTab.calendar)
+                }
+                .keyboardShortcut("n", modifiers: [.command, .option])
+            }
+        }
+
+        // View 菜单
         CommandMenu("Navigate") {
             Button("Search") { activeTab = .search }
                 .keyboardShortcut("1", modifiers: .command)
@@ -47,15 +70,24 @@ struct CaseNetworkApp: App {
 
             Divider()
 
-            Button("New Item") {
-                postNewItemCommand()
-            }
-            .keyboardShortcut("n", modifiers: .command)
-
-            Button("Find") {
-                NotificationCenter.default.post(name: .focusSearchRequested, object: nil)
+            Button("Find…") {
+                // Switch to search tab and focus
+                activeTab = .search
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    NotificationCenter.default.post(name: .focusSearchRequested, object: nil)
+                }
             }
             .keyboardShortcut("f", modifiers: .command)
+        }
+
+        // Window 菜单
+        CommandGroup(replacing: .windowSize) {
+            Button("Default Size") {
+                NSApplication.shared.keyWindow?.setContentSize(NSSize(width: 1100, height: 700))
+            }
+            .keyboardShortcut("0", modifiers: [.command])
+
+            Divider()
         }
     }
 

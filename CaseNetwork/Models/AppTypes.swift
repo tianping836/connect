@@ -26,4 +26,12 @@ extension Notification.Name {
     static let newItemRequested = Notification.Name("CaseNetwork.newItemRequested")
     /// ⌘F 快捷键 → 聚焦搜索框
     static let focusSearchRequested = Notification.Name("CaseNetwork.focusSearchRequested")
+    /// 右键菜单 → 编辑联系人
+    static let editContactRequested = Notification.Name("CaseNetwork.editContactRequested")
+    /// 右键菜单 → 添加联系人到案件
+    static let addContactToCaseRequested = Notification.Name("CaseNetwork.addContactToCaseRequested")
+    /// 右键菜单 → 编辑案件
+    static let editCaseRequested = Notification.Name("CaseNetwork.editCaseRequested")
+    /// 右键菜单 → 编辑大事记
+    static let editKeyEventRequested = Notification.Name("CaseNetwork.editKeyEventRequested")
 }
