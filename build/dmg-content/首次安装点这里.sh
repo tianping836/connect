@@ -1,5 +1,14 @@
 #!/bin/bash
-APP="$(dirname "$0")/连接.app"
-xattr -cr "$APP" 2>/dev/null
-open "$APP" 2>/dev/null || "$APP/Contents/MacOS/连接" &
-echo "✅ 连接App 已启动！"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  安装方法："
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "  第一步：不要从 DMG 里直接双击！先拖到 Applications 。"
+echo ""
+echo "  第二步：在 Mac 中打开终端 App，输入："
+echo ""
+echo "  xattr -cr /Applications/连接.app && /Applications/连接.app/Contents/MacOS/连接 &"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
