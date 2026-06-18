@@ -1,23 +1,65 @@
 #!/bin/bash
 # ============================================================
 # 「连接」全平台一键更新
-# 用法: ./build/rebuild-all.sh
+# 用法: ./build/rebuild-all.sh          # 保留数据，仅更新 App
+#       ./build/rebuild-all.sh --clean  # 清空所有数据，干净安装
 # ============================================================
 set -euo pipefail
+
+CLEAN_MODE=false
+if [ "${1:-}" = "--clean" ]; then
+    CLEAN_MODE=true
+    shift
+fi
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 BUILD_DIR="$PROJECT_DIR/build"
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
 cd "$PROJECT_DIR"
 
-echo -e "${BLUE}========================================${NC}"
-echo -e "${BLUE}  连接 App — 全平台更新${NC}"
-echo -e "${BLUE}========================================${NC}"
+if $CLEAN_MODE; then
+    echo -e "${RED}========================================${NC}"
+    echo -e "${RED}  连接 App — 全平台更新 (清除数据)${NC}"
+    echo -e "${RED}========================================${NC}"
+else
+    echo -e "${BLUE}========================================${NC}"
+    echo -e "${BLUE}  连接 App — 全平台更新${NC}"
+    echo -e "${BLUE}========================================${NC}"
+fi
 echo ""
+
+# ── 0. 清除数据（仅 --clean 模式）──
+if $CLEAN_MODE; then
+    echo -e "${RED}🗑  清除本地数据...${NC}"
+
+    # Mac 数据库位置
+    # Group Container
+    rm -rf "$HOME/Library/Group Containers/group.com.casenetwork.data" 2>/dev/null || true
+    # App Container (SPM)
+    rm -rf "$HOME/Library/Containers/com.zhouyijunlawyer.casenetwork" 2>/dev/null || true
+    # Default store
+    rm -rf "$HOME/Library/Application Support/CaseNetwork" 2>/dev/null || true
+    # SwiftData default
+    rm -f "$HOME/Library/Application Support/CaseNetwork.sqlite" 2>/dev/null || true
+    rm -f "$HOME/Library/Application Support/CaseNetwork.sqlite-wal" 2>/dev/null || true
+    rm -f "$HOME/Library/Application Support/CaseNetwork.sqlite-shm" 2>/dev/null || true
+
+    # 清除 UserDefaults
+    defaults delete com.zhouyijunlawyer.casenetwork 2>/dev/null || true
+
+    # 清除 iOS 设备上的 App（卸载=清除数据）
+    echo "  清除 iOS 设备上的 App..."
+    xcrun devicectl device uninstall app --bundle-id com.zhouyijunlawyer.casenetwork --device 00008110-0001383E3444801E 2>/dev/null || true
+    xcrun devicectl device uninstall app --bundle-id com.zhouyijunlawyer.casenetwork --device 00008112-001E585C0EC1A01E 2>/dev/null || true
+    xcrun devicectl device uninstall app --bundle-id com.zhouyijunlawyer.casenetwork --device 00008110-001A1D9C1EB9801E 2>/dev/null || true
+
+    echo -e "  ${GREEN}✅ 数据已清除${NC}"
+fi
 
 # ── 0. 同步源码到 Xcode 项目 ──
 echo -e "${YELLOW}📋 同步源码到 Xcode 项目...${NC}"
