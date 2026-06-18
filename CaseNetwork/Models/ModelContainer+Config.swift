@@ -13,6 +13,7 @@ extension ModelContainer {
         let schema = Schema([
             Contact.self,
             Interaction.self,
+            ContactRelation.self,
             Organization.self,
             CaseRecord.self,
             CaseParticipant.self,

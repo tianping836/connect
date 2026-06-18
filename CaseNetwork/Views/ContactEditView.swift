@@ -29,6 +29,9 @@ struct ContactEditView: View {
     @State private var hasBirthday = false
     @State private var contactReminderDays: Int?
 
+    @State private var duplicateCandidates: [DuplicateCandidate] = []
+    @State private var showDuplicates = false
+
     private var isEditing: Bool { contact != nil }
     private var title: String { isEditing ? "编辑" : "新建人脉" }
 
@@ -120,11 +123,27 @@ struct ContactEditView: View {
                     Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("保存") { saveContact() }
-                        .disabled(name.isEmpty)
+                    Button("保存") {
+                        checkDuplicatesBeforeSave()
+                    }
+                    .disabled(name.isEmpty)
                 }
             }
             .onAppear { loadExistingData() }
+            .alert("发现疑似重复", isPresented: $showDuplicates) {
+                Button("仍然保存") {
+                    withAnimation { showDuplicates = false }
+                    performSave()
+                }
+                Button("取消", role: .cancel) {
+                    duplicateCandidates = []
+                }
+            } message: {
+                let preview = duplicateCandidates.prefix(3).map {
+                    "「\($0.existingContact.name)」— \($0.matchReason)"
+                }.joined(separator: "\n")
+                Text("以下联系人可能与「\(name)」重复：\n\n\(preview)")
+            }
         }
     }
 
@@ -180,7 +199,30 @@ struct ContactEditView: View {
         }
     }
 
+    // MARK: - 去重检查
+
+    private func checkDuplicatesBeforeSave() {
+        // 仅新建时检查（编辑不检查）
+        guard !isEditing else {
+            performSave()
+            return
+        }
+        let tempContact = Contact(name: name, phone: phone.isEmpty ? nil : phone)
+        duplicateCandidates = RelationshipService.shared.detectDuplicates(
+            for: tempContact, in: allContacts
+        )
+        if duplicateCandidates.isEmpty {
+            performSave()
+        } else {
+            showDuplicates = true
+        }
+    }
+
     // MARK: - 保存
+
+    private func performSave() {
+        saveContact()
+    }
 
     private func saveContact() {
         let skills = skillTagsText

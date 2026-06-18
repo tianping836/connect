@@ -84,6 +84,25 @@ enum InteractionType: String, Codable, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+enum RelationType: String, Codable, CaseIterable, Identifiable {
+    case colleague = "同事", classmate = "同学", relative = "亲属"
+    case business = "业务合作", friend = "朋友", acquaintance = "熟人"
+    case neighbor = "邻居", other = "其他"
+    var id: String { rawValue }
+    var icon: String {
+        switch self {
+        case .colleague: "briefcase.fill"
+        case .classmate: "graduationcap.fill"
+        case .relative: "heart.fill"
+        case .business: "handshake"
+        case .friend: "person.2.fill"
+        case .acquaintance: "person.circle"
+        case .neighbor: "house.fill"
+        case .other: "link"
+        }
+    }
+}
+
 enum KeyEventType: String, Codable, CaseIterable, Identifiable {
     case filing = "立案", courtHearing = "开庭", evidenceDeadline = "举证期限"
     case mediation = "调解", sentencing = "宣判", appeal = "上诉", closing = "结案"
@@ -154,6 +173,11 @@ final class Contact {
     @Relationship(inverse: \CaseParticipant.contact)
     var caseParticipations: [CaseParticipant]?
 
+    @Relationship(inverse: \ContactRelation.source)
+    var sourceRelations: [ContactRelation]?
+    @Relationship(inverse: \ContactRelation.target)
+    var targetRelations: [ContactRelation]?
+
     init(id: UUID = UUID(), name: String, avatar: Data? = nil, phone: String? = nil,
          wechat: String? = nil, email: String? = nil, roleTags: [ContactRole] = [],
          organization: Organization? = nil, rolesInOrg: [OrgRole] = [],
@@ -203,6 +227,28 @@ final class Interaction {
         self.id = id; self.contact = contact; self.typeRaw = type.rawValue
         self.date = date; self.detail = detail; self.amount = amount
         self.nextFollowUpDate = nextFollowUpDate; self.createdAt = createdAt
+    }
+}
+
+// MARK: - 人脉关系（双向连线）
+
+@Model
+final class ContactRelation {
+    @Attribute(.unique) var id: UUID
+    var source: Contact?
+    var target: Contact?
+    var typeRaw: String
+    @Transient var type: RelationType {
+        get { RelationType(rawValue: typeRaw) ?? .other }
+        set { typeRaw = newValue.rawValue }
+    }
+    var note: String?
+    var createdAt: Date
+
+    init(id: UUID = UUID(), source: Contact? = nil, target: Contact? = nil,
+         type: RelationType = .other, note: String? = nil, createdAt: Date = Date()) {
+        self.id = id; self.source = source; self.target = target
+        self.typeRaw = type.rawValue; self.note = note; self.createdAt = createdAt
     }
 }
 

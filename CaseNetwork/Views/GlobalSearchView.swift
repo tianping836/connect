@@ -184,6 +184,16 @@ struct GlobalSearchView: View {
                 } label: {
                     Label("全部案件 (\(allCases.count))", systemImage: "doc.text")
                 }
+                NavigationLink {
+                    FindPathView()
+                } label: {
+                    Label("查找关系路径", systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                }
+                NavigationLink {
+                    DuplicateMergeView()
+                } label: {
+                    Label("去重检查", systemImage: "person.2.slash")
+                }
             }
         }
         .listStyle(.inset)

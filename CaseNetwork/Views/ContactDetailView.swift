@@ -7,9 +7,12 @@ import SwiftData
 struct ContactDetailView: View {
     let contact: Contact
     @Environment(\.modelContext) private var modelContext
+    @Query var allRelations: [ContactRelation]
     @State private var showEdit = false
     @State private var showAddInteraction = false
     @State private var showAllInteractions = false
+    @State private var showAddRelation = false
+    @State private var showNetworkGraph = false
 
     var body: some View {
         List {
@@ -142,6 +145,91 @@ struct ContactDetailView: View {
                 }
             }
 
+            // MARK: - 关系网络
+
+            let directRelations = allRelations.filter {
+                $0.source?.id == contact.id || $0.target?.id == contact.id
+            }
+            Section {
+                // 按关系类型分组
+                let grouped = Dictionary(grouping: directRelations) { $0.type }
+                ForEach(grouped.keys.sorted(by: { $0.rawValue < $1.rawValue }), id: \.self) { type in
+                    let rels = grouped[type] ?? []
+                    ForEach(rels) { rel in
+                        let peer = rel.source?.id == contact.id ? rel.target : rel.source
+                        if let peerContact = peer {
+                            NavigationLink {
+                                ContactDetailView(contact: peerContact)
+                            } label: {
+                                HStack(spacing: 10) {
+                                    Image(systemName: type.icon)
+                                        .foregroundStyle(relationColor(type))
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(peerContact.name)
+                                            .font(.subheadline.weight(.medium))
+                                        HStack(spacing: 4) {
+                                            Text(type.rawValue)
+                                                .font(.caption)
+                                                .foregroundStyle(relationColor(type))
+                                            if let note = rel.note {
+                                                Text("· \(note)")
+                                                    .font(.caption)
+                                                    .foregroundStyle(.secondary)
+                                            }
+                                        }
+                                    }
+                                    Spacer()
+                                    if let role = peerContact.roleTags.first {
+                                        RoleBadge(role: role, size: .small)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if directRelations.isEmpty {
+                    VStack(spacing: 12) {
+                        Image(systemName: "person.line.dotted.person")
+                            .font(.title2)
+                            .foregroundStyle(.secondary)
+                        Text("还没有建立人脉关系")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                }
+
+                // 操作按钮
+                HStack(spacing: 16) {
+                    Button {
+                        showAddRelation = true
+                    } label: {
+                        Label("添加关系", systemImage: "person.badge.plus")
+                            .font(.subheadline)
+                    }
+
+                    if !directRelations.isEmpty {
+                        Button {
+                            showNetworkGraph = true
+                        } label: {
+                            Label("网络图", systemImage: "circle.hexagongrid")
+                                .font(.subheadline)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+                .foregroundStyle(.blue)
+            } header: {
+                HStack {
+                    Text("关系网络")
+                    Spacer()
+                    Text("\(directRelations.count)")
+                        .foregroundStyle(.secondary)
+                }
+            }
+
             // MARK: - 互动记录
 
             if let interactions = contact.interactions, !interactions.isEmpty {
@@ -216,6 +304,14 @@ struct ContactDetailView: View {
         .sheet(isPresented: $showAddInteraction) {
             InteractionEditView(contact: contact)
         }
+        .sheet(isPresented: $showAddRelation) {
+            RelationshipEditView(preselectedSource: contact)
+        }
+        .sheet(isPresented: $showNetworkGraph) {
+            NavigationStack {
+                NetworkGraphView(center: contact)
+            }
+        }
     }
 
     // MARK: - 互动行
@@ -268,6 +364,19 @@ struct ContactDetailView: View {
             } label: {
                 Label("删除", systemImage: "trash")
             }
+        }
+    }
+
+    private func relationColor(_ type: RelationType) -> Color {
+        switch type {
+        case .colleague: .blue
+        case .classmate: .green
+        case .relative: .red
+        case .business: .orange
+        case .friend: .purple
+        case .acquaintance: .gray
+        case .neighbor: .mint
+        case .other: .secondary
         }
     }
 

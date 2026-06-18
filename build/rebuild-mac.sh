@@ -13,13 +13,13 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${YELLOW}🔨 编译 $APP_NAME (macOS)...${NC}"
+echo -e "${YELLOW}🔨 编译 连接 (macOS)...${NC}"
 
 cd "$PROJECT_DIR"
 
 # 1. Build
 xcodebuild \
-  -scheme "$APP_NAME" \
+  -scheme "连接" \
   -destination 'platform=macOS' \
   -configuration Debug \
   CODE_SIGN_IDENTITY="-" \
@@ -29,7 +29,7 @@ xcodebuild \
   -derivedDataPath "$DERIVED_DATA" \
   build 2>&1 | grep -E '(error:|warning:|BUILD|**)' || true
 
-if [ ! -f "$DERIVED_DATA/Build/Products/Debug/$APP_NAME" ]; then
+if [ ! -f "$DERIVED_DATA/Build/Products/Debug/连接" ]; then
     echo -e "${YELLOW}❌ 编译失败${NC}"
     exit 1
 fi
@@ -37,25 +37,25 @@ fi
 echo -e "${GREEN}✅ 编译成功${NC}"
 
 # 2. Kill running instance
-pkill -f "$APP_NAME.app/Contents/MacOS/$APP_NAME" 2>/dev/null || true
+pkill -f "连接.app/Contents/MacOS/连接" 2>/dev/null || true
 sleep 1
 
 # 3. Build .app bundle
 echo -e "${YELLOW}📦 组装 App Bundle...${NC}"
-APP_DIR="$BUILD_DIR/$APP_NAME.app"
+APP_DIR="$BUILD_DIR/连接.app"
 mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
 
 # Binary
-cp "$DERIVED_DATA/Build/Products/Debug/$APP_NAME" "$APP_DIR/Contents/MacOS/$APP_NAME"
+cp "$DERIVED_DATA/Build/Products/Debug/连接" "$APP_DIR/Contents/MacOS/连接"
 # 如果 SPM 二进制名字和 CFBundleExecutable 不同，重命名
-if [ "$APP_NAME" != "CaseNetwork" ]; then
-    mv "$APP_DIR/Contents/MacOS/CaseNetwork" "$APP_DIR/Contents/MacOS/$APP_NAME" 2>/dev/null || true
+if [ "连接" != "CaseNetwork" ]; then
+    mv "$APP_DIR/Contents/MacOS/CaseNetwork" "$APP_DIR/Contents/MacOS/连接" 2>/dev/null || true
 fi
-chmod +x "$APP_DIR/Contents/MacOS/$APP_NAME"
+chmod +x "$APP_DIR/Contents/MacOS/连接"
 
 # Resources
-rm -rf "$APP_DIR/Contents/Resources/$APP_NAME""_$APP_NAME.bundle"
-cp -R "$DERIVED_DATA/Build/Products/Debug/$APP_NAME""_$APP_NAME.bundle" "$APP_DIR/Contents/Resources/"
+rm -rf "$APP_DIR/Contents/Resources/连接""_连接.bundle"
+cp -R "$DERIVED_DATA/Build/Products/Debug/连接""_连接.bundle" "$APP_DIR/Contents/Resources/"
 
 # App Icon
 if [ -f "$APP_DIR/Contents/Resources/AppIcon.icns" ]; then
@@ -102,17 +102,17 @@ echo -e "${GREEN}✅ App Bundle 已组装${NC}"
 
 # 4. Install to /Applications
 echo -e "${YELLOW}📀 安装到 /Applications...${NC}"
-rm -rf /Applications/$APP_NAME.app
+rm -rf /Applications/连接.app
 cp -Rf "$APP_DIR" /Applications/
-echo -e "${GREEN}✅ 已安装到 /Applications/$APP_NAME.app${NC}"
+echo -e "${GREEN}✅ 已安装到 /Applications/连接.app${NC}"
 
 # 5. Launch
 echo -e "${YELLOW}🚀 启动应用...${NC}"
-open /Applications/$APP_NAME.app
+open /Applications/连接.app
 
 sleep 2
-if pgrep -f "$APP_NAME.app/Contents/MacOS/$APP_NAME" > /dev/null 2>&1; then
-    echo -e "${GREEN}✅ $APP_NAME 已启动运行！${NC}"
+if pgrep -f "连接.app/Contents/MacOS/连接" > /dev/null 2>&1; then
+    echo -e "${GREEN}✅ 连接 已启动运行！${NC}"
 else
     echo -e "${YELLOW}⚠️  应用可能未成功启动，检查控制台日志${NC}"
 fi

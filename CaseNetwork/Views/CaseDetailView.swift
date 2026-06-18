@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(iOS)
 import UIKit
+#endif
 import SwiftData
 
 /// 案件详情页——基本信息 + 参与人（按角色分组）+ 大事记时间轴 + 关联机构
