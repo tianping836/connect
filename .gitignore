@@ -8,3 +8,4 @@ workspace/
 .config/
 .claude/plans/myagents/
 .build/
+.claude/
