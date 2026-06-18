@@ -4,10 +4,12 @@ import SwiftData
 /// CaseNetwork App 入口
 /// - iPhone (compact): TabView 底部导航
 /// - iPad (regular): NavigationSplitView 三栏布局 + 键盘快捷键
+/// - Phase 6: 应用锁 + CloudKit 同步 + 数据导出
 @main
 struct CaseNetworkApp: App {
     let container: ModelContainer
     @State private var activeTab: AppTab = .search
+    @Environment(\.scenePhase) private var scenePhase
 
     init() {
         container = ModelContainer.appContainer
@@ -19,17 +21,33 @@ struct CaseNetworkApp: App {
             let granted = await NotificationService.shared.requestAuthorization()
             print("[CaseNetwork] Notification authorization: \(granted ? "granted" : "denied")")
         }
+        // 启动 CloudKit 同步观察
+        CloudSyncObserver.shared.startIfNeeded()
     }
 
     var body: some Scene {
         WindowGroup {
             AdaptiveContentView(activeTab: $activeTab)
                 .frame(minWidth: 800, minHeight: 500)
+                // Phase 6: 应用锁遮罩
+                .overlay {
+                    if BiometricAuthService.shared.isAppLocked {
+                        AppLockView()
+                            .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                    }
+                }
+                .animation(.easeInOut(duration: 0.25), value: BiometricAuthService.shared.isAppLocked)
         }
         .defaultSize(width: 1100, height: 700)
         .modelContainer(container)
         .commands {
             sidebarCommands
+        }
+        // Phase 6: 场景阶段 → 自动加锁
+        .onChange(of: scenePhase) { _, newPhase in
+            if newPhase == .background || newPhase == .inactive {
+                BiometricAuthService.shared.lock()
+            }
         }
     }
 
@@ -67,6 +85,8 @@ struct CaseNetworkApp: App {
                 .keyboardShortcut("3", modifiers: .command)
             Button("Calendar") { activeTab = .calendar }
                 .keyboardShortcut("4", modifiers: .command)
+            Button("Settings") { activeTab = .settings }
+                .keyboardShortcut("5", modifiers: .command)
 
             Divider()
 
@@ -89,10 +109,6 @@ struct CaseNetworkApp: App {
 
             Divider()
         }
-    }
-
-    private func postNewItemCommand() {
-        NotificationCenter.default.post(name: .newItemRequested, object: activeTab)
     }
 
     private func isFirstLaunch() -> Bool {
@@ -139,6 +155,10 @@ struct AdaptiveContentView: View {
             CalendarView()
                 .tabItem { Label("Calendar", systemImage: "calendar") }
                 .tag(AppTab.calendar)
+
+            SettingsView()
+                .tabItem { Label("Settings", systemImage: "gearshape") }
+                .tag(AppTab.settings)
         }
         .tint(.blue)
     }
@@ -170,6 +190,10 @@ struct AdaptiveContentView: View {
                 Label("Calendar", systemImage: "calendar")
                     .tag(AppTab.calendar)
             }
+            Section {
+                Label("Settings", systemImage: "gearshape")
+                    .tag(AppTab.settings)
+            }
         }
         .navigationTitle("CaseNetwork")
         .listStyle(.sidebar)
@@ -188,6 +212,8 @@ struct AdaptiveContentView: View {
             CaseListView()
         case .calendar:
             CalendarView()
+        case .settings:
+            SettingsView()
         }
     }
 

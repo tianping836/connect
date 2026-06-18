@@ -8,13 +8,25 @@ enum AppTab: String, CaseIterable {
     case contacts = "Contacts"
     case cases = "Cases"
     case calendar = "Calendar"
+    case settings = "Settings"
 
     var systemImage: String {
         switch self {
-        case .search:   "magnifyingglass"
-        case .contacts: "person.3.fill"
-        case .cases:    "doc.text.fill"
-        case .calendar: "calendar"
+        case .search:    "magnifyingglass"
+        case .contacts:  "person.3.fill"
+        case .cases:     "doc.text.fill"
+        case .calendar:  "calendar"
+        case .settings:  "gearshape"
+        }
+    }
+
+    var displayName: String {
+        switch self {
+        case .search:    "Search"
+        case .contacts:  "Contacts"
+        case .cases:     "Cases"
+        case .calendar:  "Calendar"
+        case .settings:  "Settings"
         }
     }
 }
