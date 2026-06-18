@@ -58,8 +58,6 @@ struct CaseNetworkApp: App {
                     OnboardingView()
                         .onDisappear {
                             hasSeenOnboarding = true
-                            // 引导结束后，如果数据库为空，建预览数据
-                            ensurePreviewData()
                         }
                         #if os(macOS)
                         .frame(width: 520, height: 620)
@@ -143,19 +141,6 @@ struct CaseNetworkApp: App {
         }
     }
     #endif
-
-    /// 如果数据库为空，填充预览数据（引导结束后调用）
-    private func ensurePreviewData() {
-        let ctx = container.mainContext
-        do {
-            let contactCount = try ctx.fetchCount(FetchDescriptor<Contact>())
-            if contactCount == 0 {
-                PreviewData.create(modelContext: ctx)
-            }
-        } catch {
-            PreviewData.create(modelContext: ctx)
-        }
-    }
 }
 
 // MARK: - 自适应布局
