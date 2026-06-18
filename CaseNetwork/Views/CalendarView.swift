@@ -106,8 +106,8 @@ struct CalendarView: View {
             do {
                 let now = Date()
                 let cal = Calendar.current
-                let s = cal.date(byAdding: .month, value: -1, to: now)!
-                let e = cal.date(byAdding: .month, value: 2, to: now)!
+                let s = cal.date(byAdding: .year, value: -10, to: now)!
+                let e = cal.date(byAdding: .year, value: 2, to: now)!
                 let n = try await CalendarSyncService.shared.importEvents(from: s, to: e, modelContext: modelContext)
                 UserDefaults.standard.set(Date().timeIntervalSince1970, forKey: "last_calendar_sync")
                 await MainActor.run {
