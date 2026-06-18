@@ -17,6 +17,7 @@ struct KeyEventEditView: View {
     @State private var date: Date
     @State private var reminderEnabled = true
     @State private var reminderDays: [Int] = [7, 3, 1]
+    @State private var showDeleteConfirm = false
 
     private var isEditing: Bool { event != nil }
 
@@ -72,9 +73,22 @@ struct KeyEventEditView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
                 }
+                ToolbarItem(placement: .destructiveAction) {
+                    if isEditing {
+                        Button(role: .destructive) { showDeleteConfirm = true } label: {
+                            Image(systemName: "trash")
+                        }
+                    }
+                }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Save") { saveEvent() }.disabled(title.isEmpty)
                 }
+            }
+            .alert("Delete this event?", isPresented: $showDeleteConfirm) {
+                Button("Delete", role: .destructive) { deleteEvent() }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("The event \"\(event?.title ?? "")\" and its reminders will be deleted.")
             }
             .onAppear { loadExisting() }
         }
@@ -109,6 +123,7 @@ struct KeyEventEditView: View {
     // MARK: - 保存
 
     private func saveEvent() {
+        let savedEvent: KeyEvent
         if let existing = event {
             existing.eventType = eventType
             existing.title = title
@@ -118,6 +133,7 @@ struct KeyEventEditView: View {
             existing.reminderEnabled = reminderEnabled
             existing.reminderDays = reminderEnabled ? reminderDays : []
             if let c = selectedCase { existing.caseRecord = c; c.keyEvents?.append(existing) }
+            savedEvent = existing
         } else {
             let newEvent = KeyEvent(
                 caseRecord: selectedCase,
@@ -130,7 +146,21 @@ struct KeyEventEditView: View {
             )
             modelContext.insert(newEvent)
             selectedCase?.keyEvents?.append(newEvent)
+            savedEvent = newEvent
         }
+        try? modelContext.save()
+        // 调度本地通知
+        NotificationService.shared.schedule(for: savedEvent)
+        dismiss()
+    }
+
+    private func deleteEvent() {
+        guard let existing = event else { return }
+        // 取消该事件的全部通知
+        NotificationService.shared.cancelAll(forEventID: existing.id)
+        // 从案件关联中移除
+        existing.caseRecord?.keyEvents?.removeAll { $0.id == existing.id }
+        modelContext.delete(existing)
         try? modelContext.save()
         dismiss()
     }

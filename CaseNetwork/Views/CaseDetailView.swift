@@ -90,6 +90,13 @@ struct CaseDetailView: View {
                 Section("Timeline") {
                     ForEach(events.sorted(by: { $0.date > $1.date })) { event in
                         timelineRow(event)
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    deleteTimelineEvent(event)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                     }
                 }
             }
@@ -237,6 +244,15 @@ struct CaseDetailView: View {
         case .ruling:              "#512DA8"
         case .other:               "#616161"
         }
+    }
+
+    // MARK: - 删除大事记
+
+    private func deleteTimelineEvent(_ event: KeyEvent) {
+        NotificationService.shared.cancelAll(for: event)
+        caseRecord.keyEvents?.removeAll { $0.id == event.id }
+        modelContext.delete(event)
+        try? modelContext.save()
     }
 
     // MARK: - 关联案件

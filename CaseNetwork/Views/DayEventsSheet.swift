@@ -5,6 +5,7 @@ struct DayEventsSheet: View {
     let date: Date
     let events: [KeyEvent]
 
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @State private var showAddEvent = false
 
@@ -59,6 +60,13 @@ struct DayEventsSheet: View {
                                 }
                             }
                             .padding(.vertical, 2)
+                            .swipeActions(edge: .trailing) {
+                                Button(role: .destructive) {
+                                    deleteEvent(event)
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
+                            }
                         }
                     }
                     .listStyle(.inset)
@@ -79,5 +87,12 @@ struct DayEventsSheet: View {
                 KeyEventEditView(preselectedDate: date)
             }
         }
+    }
+
+    private func deleteEvent(_ event: KeyEvent) {
+        NotificationService.shared.cancelAll(for: event)
+        event.caseRecord?.keyEvents?.removeAll { $0.id == event.id }
+        modelContext.delete(event)
+        try? modelContext.save()
     }
 }

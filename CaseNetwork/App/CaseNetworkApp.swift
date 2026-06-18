@@ -28,6 +28,11 @@ struct CaseNetworkApp: App {
         if isFirstLaunch() {
             PreviewData.create(modelContext: container.mainContext)
         }
+        // 请求通知权限（首次启动时系统弹窗，之后静默返回当前状态）
+        Task { @MainActor in
+            let granted = await NotificationService.shared.requestAuthorization()
+            print("[CaseNetwork] Notification authorization: \(granted ? "granted" : "denied")")
+        }
     }
 
     var body: some Scene {

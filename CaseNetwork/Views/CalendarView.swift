@@ -269,6 +269,30 @@ struct CalendarView: View {
                 .foregroundStyle(Color(hex: hex))
                 .clipShape(.capsule)
         }
+        .swipeActions(edge: .trailing) {
+            Button(role: .destructive) {
+                deleteEvent(event)
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+    }
+
+    // MARK: - 删除事件
+
+    private func deleteEvent(_ event: KeyEvent) {
+        NotificationService.shared.cancelAll(for: event)
+        event.caseRecord?.keyEvents?.removeAll { $0.id == event.id }
+        modelContext.delete(event)
+        try? modelContext.save()
+        // 刷新选中日事件
+        if let selected = viewModel.selectedDate {
+            viewModel.loadEvents(allKeyEvents)
+            // 如果当天没事件了，自动收起
+            if viewModel.events(for: selected).isEmpty {
+                viewModel.selectedDate = nil
+            }
+        }
     }
 }
 
