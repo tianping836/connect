@@ -65,7 +65,7 @@ struct ImportContactsView: View {
             Text("访问你的通讯录")
                 .font(.title2.weight(.semibold))
 
-            Text("CaseNetwork 需要读取通讯录以导入联系人。你的数据仅存储在本地。")
+            Text("连接需要读取通讯录以导入联系人。你的数据仅存储在本地。")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)

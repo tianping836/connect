@@ -217,7 +217,7 @@ struct AdaptiveContentView: View {
 
     private var sidebar: some View {
         List(selection: $activeTab) {
-            Section("CaseNetwork") {
+            Section("连接") {
                 Label("搜索", systemImage: "magnifyingglass")
                     .tag(AppTab.search)
                 Label("人脉", systemImage: "person.3.fill")
@@ -232,7 +232,7 @@ struct AdaptiveContentView: View {
                     .tag(AppTab.settings)
             }
         }
-        .navigationTitle("CaseNetwork")
+        .navigationTitle("连接")
         .listStyle(.sidebar)
     }
 

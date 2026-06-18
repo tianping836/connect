@@ -25,7 +25,7 @@ struct AppLockView: View {
                     .padding(.bottom, 4)
 
                 // 标题
-                Text("CaseNetwork 已锁定")
+                Text("连接已锁定")
                     .font(.title2)
                     .fontWeight(.semibold)
 

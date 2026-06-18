@@ -77,11 +77,11 @@ cat > "$APP_DIR/Contents/Info.plist" << 'PLISTEOF'
 <plist version="1.0">
 <dict>
     <key>CFBundleDevelopmentRegion</key><string>zh_CN</string>
-    <key>CFBundleDisplayName</key><string>CaseNetwork</string>
-    <key>CFBundleExecutable</key><string>CaseNetwork</string>
+    <key>CFBundleDisplayName</key><string>连接</string>
+    <key>CFBundleExecutable</key><string>连接</string>
     <key>CFBundleIdentifier</key><string>com.zhouyijunlawyer.casenetwork</string>
     <key>CFBundleInfoDictionaryVersion</key><string>6.0</string>
-    <key>CFBundleName</key><string>CaseNetwork</string>
+    <key>CFBundleName</key><string>连接</string>
     <key>CFBundlePackageType</key><string>APPL</string>
     <key>CFBundleShortVersionString</key><string>1.0</string>
     <key>CFBundleVersion</key><string>1</string>

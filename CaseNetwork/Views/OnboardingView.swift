@@ -60,7 +60,7 @@ struct OnboardingView: View {
             }
 
             VStack(spacing: 8) {
-                Text("欢迎使用 CaseNetwork")
+                Text("欢迎使用连接")
                     .font(.largeTitle.weight(.bold))
                 Text("案件与人脉，一网打尽")
                     .font(.title3)

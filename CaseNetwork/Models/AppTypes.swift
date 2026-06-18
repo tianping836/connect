@@ -4,11 +4,11 @@ import Foundation
 
 /// 应用导航 Tab（共享类型，供各 View 引用）
 enum AppTab: String, CaseIterable {
-    case search = "Search"
-    case contacts = "Contacts"
-    case cases = "Cases"
-    case calendar = "Calendar"
-    case settings = "Settings"
+    case search = "搜索"
+    case contacts = "人脉"
+    case cases = "案件"
+    case calendar = "日历"
+    case settings = "设置"
 
     var systemImage: String {
         switch self {
@@ -22,11 +22,11 @@ enum AppTab: String, CaseIterable {
 
     var displayName: String {
         switch self {
-        case .search:    "Search"
-        case .contacts:  "Contacts"
-        case .cases:     "Cases"
-        case .calendar:  "Calendar"
-        case .settings:  "Settings"
+        case .search:    "搜索"
+        case .contacts:  "人脉"
+        case .cases:     "案件"
+        case .calendar:  "日历"
+        case .settings:  "设置"
         }
     }
 }
