@@ -9,3 +9,8 @@ workspace/
 .claude/plans/myagents/
 .build/
 .claude/
+
+# Build artifacts
+build/DerivedData/
+build/*.app/
+build/AppIcon.iconset/
