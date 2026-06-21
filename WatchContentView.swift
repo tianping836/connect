@@ -1,0 +1,14 @@
+import SwiftUI
+import SwiftData
+struct WatchContentView: View {
+    @Environment(\.modelContext) private var modelContext; @EnvironmentObject private var dataManager: WatchDataManager
+    @State private var todayEvents: [Event] = []; @State private var isLoading = true
+    private let tealLink = Color(red: 0/255, green: 137/255, blue: 123/255); private let coralWarm = Color(red: 224/255, green: 123/255, blue: 90/255); private let textPrimary = Color.white; private let textSecondary = Color.white.opacity(0.6); private let surfaceCard = Color.white.opacity(0.08)
+    var body: some View { NavigationStack { Group { if isLoading { ProgressView("加载中…").frame(maxWidth: .infinity, maxHeight: .infinity) } else if todayEvents.isEmpty { emptyState } else { eventList } }.navigationTitle("今日").containerBackground(.black.gradient, for: .navigation) }.onAppear(perform: loadTodayEvents) }
+    private var emptyState: some View { VStack(spacing: 8) { Image(systemName: "checkmark.circle").font(.title2).foregroundColor(tealLink); Text("今日无安排").font(.headline).foregroundColor(textSecondary) }.frame(maxWidth: .infinity, maxHeight: .infinity) }
+    private var eventList: some View { List { ForEach(todayEvents) { event in eventRow(event).listRowBackground(surfaceCard) } }.listStyle(.carousel) }
+    @ViewBuilder private func eventRow(_ event: Event) -> some View { VStack(alignment: .leading, spacing: 4) { HStack(spacing: 6) { Image(systemName: event.eventType.systemImage).font(.caption2).foregroundColor(eventTypeColor(event.eventType)).frame(width: 18, alignment: .center); Text(event.title).font(.system(size: 15, weight: .semibold)).foregroundColor(textPrimary).lineLimit(2) }; HStack(spacing: 6) { if let date = event.date { Text(formatEventTime(date, isAllDay: event.isAllDay)).font(.system(size: 12)).foregroundColor(textSecondary) }; if let location = event.location, !location.isEmpty { Text("· \(location)").font(.system(size: 12)).foregroundColor(textSecondary).lineLimit(1) } }; if !event.participants.isEmpty { HStack(spacing: 4) { Image(systemName: "person.2").font(.system(size: 10)); Text("\(event.participants.count) 人参与").font(.system(size: 11)) }.foregroundColor(textSecondary.opacity(0.7)) } }.padding(.vertical, 4) }
+    private func loadTodayEvents() { DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { todayEvents = dataManager.todayEvents(context: modelContext); isLoading = false } }
+    private func eventTypeColor(_ type: EventType) -> Color { switch type { case .hearing: return coralWarm; case .deadline: return Color(red: 211/255, green: 47/255, blue: 47/255); case .meeting: return tealLink; default: return textSecondary } }
+    private func formatEventTime(_ date: Date, isAllDay: Bool) -> String { let f = DateFormatter(); f.dateFormat = "HH:mm"; return f.string(from: date) }
+}
